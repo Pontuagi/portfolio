@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Benedict Portfolio</title>
         <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/2dce5fa11f.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="header">
@@ -43,21 +44,90 @@
                         </p>
 
                         <div class="tab-titles">
-                            <p class="tab-links active-link"> skills</p>
-                            <p class="tab-links">experience</p>
-                            <p class="tab-links">education</p>
+                            <p class="tab-links active-link" onclick="opentab('skills')"> Skills</p>
+                            <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                            <p class="tab-links" onclick="opentab('education')">Education</p>
                         </div>
 
-                        <div class="tab-content">
+                        <div class="tab-contents active-tab" id="skills">
                             <ul>
                                 <li><span>Full-stack Web Developer</span><br>Full website development</li>
                                 <li><span>Front-end Developer</span><br>HTML, CSS, JavaScript, React</li>
                                 <li><span>Back-end Developer</span><br>Python, Django, NodeJs</li>
                             </ul>
                         </div>
+
+                        <div class="tab-contents" id="experience">
+                            <ul>
+                                <li><span>Nov 2023 - March 2024</span><br>Back-end Specialization at ALX Africa</li>
+                                <li><span>Feb 2023 - Nov 2023</span><br>Full-stack Software Engineering at ALX Africa</li>
+                                <li><span>2017 - 2022</span><br>Bachelor of Science in Mechatronics Engineering at Dedan Kimathi University of Technology.</li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-contents" id="education">
+                            <ul>
+                                <li><span>Feb 2022 - May 2022</span><br>Attachee at Beyond Grades - Nyeri</li>
+                                <li><span>Jan 2020 - April 2020</span><br>Attachee at Kenya Power and lighting Company</li>
+                                <li><span>Jan 2019 - April 2019</span><br>Attachee at Dedan Kimathi University of Technology</li>
+                            </ul>
+                        </div>
                     </div>    
                 </div>
             </div>
         </div>
+
+        <!-- ------------------------Services------------------------ -->
+        <div id="services">
+            <div class="container">
+                <h1 class="sub_title">My Services</h1>
+                <div class="services-list">
+                    <div>
+                        <i class="fa-solid fa-code"></i>
+                        <h2>Web Design</h2>
+                        <p>I am a web developer. I love to create beautiful and interactive websites.</p>
+                        <a href="#">Learn more</a>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-bug"></i>
+                        <h2>Code Debbugging</h2>
+                        <p>I will debug your code and fix any bugs.</p>
+                        <a href="#">Learn more</a>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-pager"></i>
+                        <h2>Landing Pages</h2>
+                        <p>I create interactive landing pages.</p>
+                        <a href="#">Learn more</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ------------------------Portfolio------------------------ -->
+        <div id="portfolio">
+            <div class="container">
+                <h1 class="sub_title">My Work</h1>
+            </div>
+        </div>
+
+        <script>
+            var tablinks = document.getElementsByClassName("tab-links");
+            var tabcontents = document.getElementsByClassName("tab-contents");
+
+            function opentab(tabname){
+                for(tablink of tablinks){
+                    tablink.classList.remove("active-link");
+                }
+                for(tabcontent of tabcontents){
+                    tabcontent.classList.remove("active-tab");
+                }
+                event.currentTarget.classList.add("active-link");
+                document.getElementById(tabname).classList.add("active-tab");
+            }
+        </script>
     </body>
 </html>
