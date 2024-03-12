@@ -13,12 +13,15 @@
             <div class="container">
                 <nav>
                     <img src="images/kipkoech-logo.png" alt="Benedict Logo">
-                    <ul>
+                    <ul id="sidemenu">
                         <li><a href="#header">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#portfolio">Portfolio</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <i class="fa-solid fa-x" onclick="closemenu()"></i>
+
                     </ul>
+                    <i class="fa-solid fa-bars" onclick="openmenu()"></i>
                 </nav>
 
                 <div class="header-text">
@@ -32,32 +35,39 @@
             <div class="container">
                 <div class="row">
                     <div class="about-col-1">
-                        <img src="images/user.png">
+                        <img src="images/Benedict-Logo.png">
                     </div>
                     
                     <div class="about-col-2">
                         <h1 class="sub_title">About Me</h1>
                         <p>
-                            I am a software developer. I love to create beautiful and interactive websites.
-                            wellversed with experience in web development. I am a self-motivated individual who is always looking for new challenges.
-                            I am a proactive learner. I am always looking for new opportunities to learn and grow.
+                            <br>
+                            As a seasoned full-stack software engineer, I bring comprehensive proficiency in both front-end and back-end development, fueled by an insatiable curiosity and a relentless dedication to lifelong learning. 
+                            <br><br>
+                            My educational background at Alx Africa provided the foundation for my skills in C, Python, JavaScript, and mastery of frameworks such as Django, NodeJs, and Tailwind, positioning me to excel in backend roles.
+                            <br><br>
+                            In addition to my programming expertise, I am adept in various software technologies including Linux, Docker, Git/Github, application and web servers, and databases such as MySQL, MongoDB, and PostgreSQL. My familiarity with unit-tests, test-driven development, and scripting further enhances my capabilities.
+                            <br><br>
+                            My career aspirations center on the realm of technology, especially within automation companies and the innovation of local household tech items. I am drawn to the potential of technology to create systems that simplify work processes and improve the lives of future generations, driving my journey in the tech industry.
+
                         </p>
 
                         <div class="tab-titles">
-                            <p class="tab-links active-link" onclick="opentab('skills')"> Skills</p>
-                            <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                            <p class="tab-links active-link" onclick="opentab('skills')">Technical Skills</p>
+                            <p class="tab-links" onclick="opentab('professional Skills')">Professional Skills</p>
                             <p class="tab-links" onclick="opentab('education')">Education</p>
                         </div>
 
                         <div class="tab-contents active-tab" id="skills">
                             <ul>
-                                <li><span>Full-stack Web Developer</span><br>Full website development</li>
+                                <li><span>Full-stack Web Developer</span><br>Linux, Git/Github, C & Python Programming, MySQL, Debugging, Automation Scripts, Servers, SSH, Javascript, HTML, CSS, Network Basics, Test Driven Development, Regular Expressions, Web Frameworks, APIs, MongoDB, and Collaborations.
+                                </li>
                                 <li><span>Front-end Developer</span><br>HTML, CSS, JavaScript, React</li>
                                 <li><span>Back-end Developer</span><br>Python, Django, NodeJs</li>
                             </ul>
                         </div>
 
-                        <div class="tab-contents" id="experience">
+                        <div class="tab-contents" id="education">
                             <ul>
                                 <li><span>Nov 2023 - March 2024</span><br>Back-end Specialization at ALX Africa</li>
                                 <li><span>Feb 2023 - Nov 2023</span><br>Full-stack Software Engineering at ALX Africa</li>
@@ -65,11 +75,12 @@
                             </ul>
                         </div>
 
-                        <div class="tab-contents" id="education">
+                        <div class="tab-contents" id="professional Skills">
                             <ul>
-                                <li><span>Feb 2022 - May 2022</span><br>Attachee at Beyond Grades - Nyeri</li>
-                                <li><span>Jan 2020 - April 2020</span><br>Attachee at Kenya Power and lighting Company</li>
-                                <li><span>Jan 2019 - April 2019</span><br>Attachee at Dedan Kimathi University of Technology</li>
+                                <li>Project Management</li>
+                                <li>Creativity</li>
+                                <li>Teamwork and Collaborations</li>
+                                <li>Time Management</li>
                             </ul>
                         </div>
                     </div>    
@@ -84,23 +95,43 @@
                 <div class="services-list">
                     <div>
                         <i class="fa-solid fa-code"></i>
-                        <h2>Web Design</h2>
-                        <p>I am a web developer. I love to create beautiful and interactive websites.</p>
-                        <a href="#">Learn more</a>
+                        <h2>Back-end Engineer</h2>
+                        <p>
+                            Specializing in backend software engineering, 
+                            I have honed expertise in Node.js, Django, Docker, MongoDB, and Unittests.
+                            My proficiency extends to architecting scalable backend systems, 
+                            crafting reliable server-side logic, and designing resilient, data-driven applications.
+                            Committed to producing clean, well-tested code, 
+                            I ensure the reliability and functionality of my implementations. 
+                            My passion lies in contributing to technological advancements and streamlining processes 
+                            to enhance user experiences and operational efficiency for businesses and consumers alike.
+
+                        </p>
+                        
                     </div>
 
                     <div>
                         <i class="fa-solid fa-bug"></i>
-                        <h2>Code Debbugging</h2>
-                        <p>I will debug your code and fix any bugs.</p>
-                        <a href="#">Learn more</a>
+                        <h2>Django Application</h2>
+                        <p>
+                            With a strong command of the Django development environment, I possess the skills to create a wide range of applications tailored to your needs.
+                            Whether you require web applications, custom solutions, or any other Django-based projects, I have the expertise to bring your ideas to life effectively and efficiently.
+                            Feel free to reach out if you need assistance or guidance in Django development - I'm here to help you achieve your goals.
+
+                        </p>
+                       
                     </div>
 
                     <div>
                         <i class="fa-solid fa-address-card"></i>
                         <h2>Portfolio Page</h2>
-                        <p>I create interactive and beautiful portfolio pages.</p>
-                        <a href="#">Learn more</a>
+                        <p>
+                            I specialize in creating high-quality, responsive portfolio pages tailored to individuals and businesses.
+                            Using the latest web technologies and design principles, I craft visually appealing, user-friendly pages that showcase your brand effectively. I focus on understanding your needs, adding creativity and attention to detail, ensuring seamless performance across devices.
+                            Whether you're an individual building your online presence or a company showcasing your offerings, I'm here to create impactful portfolio pages that impress your audience and elevate your online presence.
+                            Let's collaborate to bring your vision to life with a standout portfolio page.
+                        </p>
+                       
                     </div>
                 </div>
             </div>
@@ -191,6 +222,19 @@
                 event.currentTarget.classList.add("active-link");
                 document.getElementById(tabname).classList.add("active-tab");
             }
+        </script>
+
+        <script>
+            var sidemenu = document.getElementById("sidemenu");
+
+            function openmenu(){
+                sidemenu.style.left = "0";
+            }
+
+            function closemenu(){
+                sidemenu.style.left = "-200px";
+            }
+
         </script>
     </body>
 </html>
