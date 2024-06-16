@@ -300,6 +300,13 @@ nav ul li a:hover::after {
 
 /* ------------------------Contact------------------------ */
 
+.contact-title{
+    text-align: left;
+    font-size: 60px;
+    font-weight: 600;
+    color: #fff;
+}
+
 .contact-left{
     flex-basis: 35%;
 }
