@@ -1,235 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Benedict Portfolio</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="https://kit.fontawesome.com/2dce5fa11f.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div id="header">
-            <div class="container">
-                <nav>
-                    <img src="images/kipkoech-logo.png" class="logo" alt="Benedict Logo">
-                    <ul id="sidemenu">
-                        <li><a href="#header">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                        <i class="fa-solid fa-x" onclick="closemenu()"></i>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benedict Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/2dce5fa11f.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="header">
+      <div class="container">
+        <nav>
+          <img
+            src="images/kipkoech-logo.png"
+            class="logo"
+            alt="Benedict Logo"
+          />
+          <ul id="sidemenu">
+            <li><a href="#header">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <i class="fa-solid fa-x" onclick="closemenu()"></i>
+          </ul>
+          <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
 
-                    </ul>
-                    <i class="fa-solid fa-bars" onclick="openmenu()"></i>
-                </nav>
-
-                <div class="header-text">
-                    <p>Hi, I am</p>
-                    <h1><span>Benedict</span> Kipkoech</h1>
-                </div>
-                <img src="images/office.jpeg" class="round-image" alt="Benedict Kipkoech">
-            </div>
+        <div class="header-text">
+          <p>Hi, I am</p>
+          <h1><span>Benedict</span> Kipkoech</h1>
         </div>
-      <!-- ------------------------About------------------------ -->  
-        <div id="about">
-            <div class="container">
-                <div class="row">
-                    
-                    <div class="about-col-2">
-                        <h1 class="sub_title">About Me</h1>
-                        <p>
-                            <br>
-                            As a seasoned full-stack software engineer, I bring comprehensive proficiency in both front-end and back-end development, fueled by an insatiable curiosity and a relentless dedication to lifelong learning. 
-                            <br><br>
-                            My educational background at Alx Africa provided the foundation for my skills in C, Python, JavaScript, and mastery of frameworks such as Django, NodeJs, and Tailwind, positioning me to excel in backend roles.
-                            <br><br>
-                            In addition to my programming expertise, I am adept in various software technologies including Linux, Docker, Git/Github, application and web servers, and databases such as MySQL, MongoDB, and PostgreSQL. My familiarity with unit-tests, test-driven development, and scripting further enhances my capabilities.
-                            <br><br>
-                            My career aspirations center on the realm of technology, especially within automation companies and the innovation of local household tech items. I am drawn to the potential of technology to create systems that simplify work processes and improve the lives of future generations, driving my journey in the tech industry.
+        <img
+          src="images/background.jpeg"
+          class="round-image"
+          alt="Benedict Kipkoech"
+        />
+      </div>
+    </div>
+    <!-- ------------------------About------------------------ -->
+    <div id="about">
+      <div class="container">
+        <div class="row">
+          <div class="about-col-2">
+            <h1 class="sub_title">About Me</h1>
+            <p>
+              <br />
+              As a seasoned full-stack software engineer, I bring comprehensive
+              proficiency in both front-end and back-end development, fueled by
+              an insatiable curiosity and a relentless dedication to lifelong
+              learning.
+              <br /><br />
+              My educational background at Alx Africa provided the foundation
+              for my skills in C, Python, JavaScript, and mastery of frameworks
+              such as Django, NodeJs, and Tailwind, positioning me to excel in
+              backend roles.
+              <br /><br />
+              In addition to my programming expertise, I am adept in various
+              software technologies including Linux, Docker, Git/Github,
+              application and web servers, and databases such as MySQL, MongoDB,
+              and PostgreSQL. My familiarity with unit-tests, test-driven
+              development, and scripting further enhances my capabilities.
+              <br /><br />
+              My career aspirations center on the realm of technology,
+              especially within automation companies and the innovation of local
+              household tech items. I am drawn to the potential of technology to
+              create systems that simplify work processes and improve the lives
+              of future generations, driving my journey in the tech industry.
+            </p>
 
-                        </p>
-
-                        <div class="tab-titles">
-                            <p class="tab-links active-link" onclick="opentab('skills')">Technical Skills</p>
-                            <p class="tab-links" onclick="opentab('professional Skills')">Professional Skills</p>
-                            <p class="tab-links" onclick="opentab('education')">Education</p>
-                        </div>
-
-                        <div class="tab-contents active-tab" id="skills">
-                            <ul>
-                                <li><span>Full-stack Web Developer</span><br>Linux, Git/Github, C & Python Programming, MySQL, Debugging, Automation Scripts, Servers, SSH, Javascript, HTML, CSS, Network Basics, Test Driven Development, Regular Expressions, Web Frameworks, APIs, MongoDB, and Collaborations.
-                                </li>
-                                <li><span>Front-end Developer</span><br>HTML, CSS, JavaScript, React, Next.js</li>
-                                <li><span>Back-end Developer</span><br>Python, Django, NodeJs</li>
-                            </ul>
-                        </div>
-
-                        <div class="tab-contents" id="education">
-                            <ul>
-                                <li><span>Nov 2023 - March 2024</span><br>Back-end Specialization at ALX Africa</li>
-                                <li><span>Feb 2023 - Nov 2023</span><br>Full-stack Software Engineering at ALX Africa</li>
-                                <li><span>2017 - 2022</span><br>Bachelor of Science in Mechatronics Engineering at Dedan Kimathi University of Technology.</li>
-                            </ul>
-                        </div>
-
-                        <div class="tab-contents" id="professional Skills">
-                            <ul>
-                                <li>Project Management</li>
-                                <li>Creativity</li>
-                                <li>Teamwork and Collaborations</li>
-                                <li>Time Management</li>
-                            </ul>
-                        </div>
-                    </div>    
-                </div>
+            <div class="tab-titles">
+              <p class="tab-links active-link" onclick="opentab('skills')">
+                Technical Skills
+              </p>
+              <p class="tab-links" onclick="opentab('professional Skills')">
+                Professional Skills
+              </p>
+              <p class="tab-links" onclick="opentab('education')">Education</p>
             </div>
+
+            <div class="tab-contents active-tab" id="skills">
+              <ul>
+                <li>
+                  <span>Full-stack Web Developer</span><br />Linux, Git/Github,
+                  C & Python Programming, MySQL, Debugging, Automation Scripts,
+                  Servers, SSH, Javascript, HTML, CSS, Network Basics, Test
+                  Driven Development, Regular Expressions, Web Frameworks, APIs,
+                  MongoDB, and Collaborations.
+                </li>
+                <li>
+                  <span>Front-end Developer</span><br />HTML, CSS, JavaScript,
+                  React, Next.js
+                </li>
+                <li>
+                  <span>Back-end Developer</span><br />Python, Django, NodeJs
+                </li>
+              </ul>
+            </div>
+
+            <div class="tab-contents" id="education">
+              <ul>
+                <li>
+                  <span>Nov 2023 - March 2024</span><br />Back-end
+                  Specialization at ALX Africa
+                </li>
+                <li>
+                  <span>Feb 2023 - Nov 2023</span><br />Full-stack Software
+                  Engineering at ALX Africa
+                </li>
+                <li>
+                  <span>2017 - 2022</span><br />Bachelor of Science in
+                  Mechatronics Engineering at Dedan Kimathi University of
+                  Technology.
+                </li>
+              </ul>
+            </div>
+
+            <div class="tab-contents" id="professional Skills">
+              <ul>
+                <li>Project Management</li>
+                <li>Creativity</li>
+                <li>Teamwork and Collaborations</li>
+                <li>Time Management</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------Services------------------------ -->
+    <div id="services">
+      <div class="container">
+        <h1 class="sub_title">My Services</h1>
+        <div class="services-list">
+          <div>
+            <i class="fa-solid fa-code"></i>
+            <h2>Full-Stack Engineer</h2>
+            <p>
+              Specializing in full-stack software engineering, I have honed
+              expertise in both backend and frontend technologies including
+              Node.js, Django, React, Next.js, AstroJs, Docker, MongoDB,
+              integration tests and Unittests.<br /><br />
+              My proficiency extends to architecting scalable backend systems,
+              crafting reliable server-side logic, and designing intuitive,
+              user-friendly frontend interfaces. <br /><br />
+              I am committed to producing clean, well-tested code, ensuring the
+              reliability and functionality of my implementations across the
+              entire stack. <br /><br />
+              My passion lies in contributing to technological advancements and
+              streamlining processes to enhance user experiences and operational
+              efficiency for businesses and consumers alike.
+            </p>
+          </div>
+
+          <div>
+            <i class="fa-solid fa-bug"></i>
+            <h2>Django Application</h2>
+            <p>
+              With a strong command of the Django development environment, I
+              possess the skills to create a wide range of applications tailored
+              to your needs. <br /><br />
+              Whether you require web applications, custom solutions, or any
+              other Django-based projects, I have the expertise to bring your
+              ideas to life effectively and efficiently. <br /><br />
+              Feel free to reach out if you need assistance or guidance in
+              Django development - I'm here to help you achieve your goals.
+            </p>
+          </div>
+
+          <div>
+            <i class="fa-solid fa-address-card"></i>
+            <h2>Next.js Application</h2>
+            <p>
+              I specialize in creating high-quality, responsive web applications
+              using Next.js, tailored to individuals and businesses.
+              <br /><br />
+              Leveraging the power of Next.js, I craft visually appealing,
+              user-friendly applications that showcase your brand effectively.
+              <br /><br />
+              By utilizing the latest web technologies and design principles, I
+              ensure seamless performance across devices and excellent user
+              experiences.<br /><br />
+              Whether you're an individual building your online presence or a
+              company showcasing your offerings, I'm here to create impactful
+              Next.js applications that impress your audience and elevate your
+              online presence. <br /><br />
+              Let's collaborate to bring your vision to life with a standout
+              Next.js application.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------Portfolio------------------------ -->
+    <div id="portfolio">
+      <div class="container">
+        <h1 class="sub_title">My Work</h1>
+
+        <div class="work-list">
+          <div class="work">
+            <img src="images/grandmark2.png" alt="GrandMark website image" />
+            <div class="layer">
+              <h3>GrandMark Website</h3>
+              <p>
+                A Next.js project developed for a geospatial company, GrandMark.
+                Utilizes styled-components and Storybook to create a modern,
+                responsive, and user-friendly interface tailored to meet
+                specific geospatial industry needs.
+              </p>
+              <a href="#"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+
+          <div class="work">
+            <img src="/images/bible-screenshot.jpeg" alt="Bible app image" />
+            <div class="layer">
+              <h3>Bible App</h3>
+              <p>
+                A Flutter and Dart-based Bible application designed for a global
+                audience. The app offers multilingual support, allowing users to
+                select from various languages, with a read-aloud feature for
+                enhanced accessibility.
+              </p>
+              <a href="#"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+
+          <div class="work">
+            <img src="images/victor-screenshot.jpeg" alt="GitHub Pages site image" />
+            <div class="layer">
+              <h3>GitHub Pages Portfolio</h3>
+              <p>
+                A personal portfolio site hosted on GitHub Pages. Built with
+                Jekyll, it showcases projects, skills, and accomplishments,
+                providing an interactive platform for professional presentation.
+              </p>
+              <a href="#"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
         </div>
 
-        <!-- ------------------------Services------------------------ -->
-        <div id="services">
-            <div class="container">
-                <h1 class="sub_title">My Services</h1>
-                <div class="services-list">
-                    <div>
-                        <i class="fa-solid fa-code"></i>
-                        <h2>Full-Stack Engineer</h2>
-                        <p>
-                            Specializing in full-stack software engineering, 
-                            I have honed expertise in both backend and frontend technologies including Node.js, Django, React, Next.js, AstroJs, Docker, MongoDB, integration tests and Unittests.<br/><br/>
-                            My proficiency extends to architecting scalable backend systems, crafting reliable server-side logic, and designing intuitive, user-friendly frontend interfaces. <br/><br/>
-                            I am committed to producing clean, well-tested code, ensuring the reliability and functionality of my implementations across the entire stack. <br/><br/>
-                            My passion lies in contributing to technological advancements and streamlining processes 
-                            to enhance user experiences and operational efficiency for businesses and consumers alike.
-                        </p>
+        <!--<a href="#" class="btn">See more</a> -->
+      </div>
+    </div>
 
-                    </div>
-
-                    <div>
-                        <i class="fa-solid fa-bug"></i>
-                        <h2>Django Application</h2>
-                        <p>
-                            With a strong command of the Django development environment, I possess the skills to create a wide range of applications tailored to your needs. <br/><br/>
-                            Whether you require web applications, custom solutions, or any other Django-based projects, I have the expertise to bring your ideas to life effectively and efficiently. <br/><br/>
-                            Feel free to reach out if you need assistance or guidance in Django development - I'm here to help you achieve your goals.
-
-                        </p>
-                       
-                    </div>
-
-                    <div>
-                        <i class="fa-solid fa-address-card"></i>
-                        <h2>Next.js Application</h2>
-                        <p>
-                            I specialize in creating high-quality, responsive web applications using Next.js, tailored to individuals and businesses. <br/><br/>
-                            Leveraging the power of Next.js, I craft visually appealing, user-friendly applications that showcase your brand effectively. <br/><br/>
-                            By utilizing the latest web technologies and design principles, I ensure seamless performance across devices and excellent user experiences.<br/><br/>
-                            Whether you're an individual building your online presence or a company showcasing your offerings, I'm here to create impactful Next.js applications that impress your audience and elevate your online presence. <br/><br/>
-                            Let's collaborate to bring your vision to life with a standout Next.js application.
-                        </p>
-                    </div>
-                </div>
+    <!-- ------------------------Contact------------------------ -->
+    <div id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="contact-left">
+            <h1 class="contact_title">Contact Me</h1>
+            <p><i class="fas fa-paper-plane"></i> benepontuagi@gmail.com</p>
+            <p><i class="fas fa-phone"></i> +254 715 909 330</p>
+            <div class="social-icons">
+              <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#"><i class="fa-brands fa-github"></i></a>
             </div>
-
+            <a href="images/BenedictCV.pdf" download class="btn btn2"
+              >Download CV</a
+            >
+          </div>
+          <div class="contact-rigth">
+            <form>
+              <input
+                type="text"
+                name="Name"
+                placeholder="Your Full Name"
+                required
+              />
+              <input
+                type="email"
+                name="Email"
+                placeholder="Your Email"
+                required
+              />
+              <textarea
+                name="Message"
+                rows="6"
+                placeholder="Your Message"
+              ></textarea>
+              <button type="submit" class="btn btn2">Submit</button>
+            </form>
+          </div>
         </div>
+      </div>
 
-        <!-- ------------------------Portfolio------------------------
-        <div id="portfolio">
-            <div class="container">
-                <h1 class="sub_title">My Work</h1>
+      <div class="copyright">
+        <p>Copyright © Kipkoech Benedict 2024. All rights reserved.</p>
+      </div>
+    </div>
 
-                <div class="work-list">
-                    <div class="work">
-                        <img src="" alt="work image">
-                        <div class="layer">
-                            <h3>Social Media App</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            <a href="#"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
+    <script>
+      var tablinks = document.getElementsByClassName("tab-links");
+      var tabcontents = document.getElementsByClassName("tab-contents");
 
-                    <div class="work">
-                        <img src="" alt="work image">
-                        <div class="layer">
-                            <h3>Eccommerce website</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            <a href="#"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
+      function opentab(tabname) {
+        for (tablink of tablinks) {
+          tablink.classList.remove("active-link");
+        }
+        for (tabcontent of tabcontents) {
+          tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+      }
+    </script>
 
-                    <div class="work">
-                        <img src="" alt="work image">
-                        <div class="layer">
-                            <h3>Portfolio page</h3>  
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            <a href="#"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                </div>
+    <script>
+      var sidemenu = document.getElementById("sidemenu");
 
-                <a href="#" class="btn">See more</a>
-            </div>
-        </div>
+      function openmenu() {
+        sidemenu.style.left = "0";
+      }
 
-        -->
-        <!-- ------------------------Contact------------------------ -->
-        <div id="contact">
-            <div class="container">
-                <div class="row">
-                    <div class="contact-left">
-                        <h1 class="contact_title">Contact Me</h1>
-                        <p><i class="fas fa-paper-plane"></i> benepontuagi@gmail.com</p>
-                        <p><i class="fas fa-phone"></i> +254 715 909 330</p>
-                        <div class="social-icons">
-                            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-                            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                        <a href="images/BenedictCV.pdf" download class="btn btn2">Download CV</a>
-                    </div>
-                    <div class="contact-rigth">
-                        <form>
-                            <input type="text" name="Name" placeholder="Your Full Name" required>
-                            <input type="email" name="Email" placeholder="Your Email" required>
-                            <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                            <button type="submit" class="btn btn2">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="copyright">
-                <p>Copyright © Kipkoech Benedict 2024. All rights reserved.</p>
-            </div>
-        </div>
-
-        <script>
-            var tablinks = document.getElementsByClassName("tab-links");
-            var tabcontents = document.getElementsByClassName("tab-contents");
-
-            function opentab(tabname){
-                for(tablink of tablinks){
-                    tablink.classList.remove("active-link");
-                }
-                for(tabcontent of tabcontents){
-                    tabcontent.classList.remove("active-tab");
-                }
-                event.currentTarget.classList.add("active-link");
-                document.getElementById(tabname).classList.add("active-tab");
-            }
-        </script>
-
-        <script>
-            var sidemenu = document.getElementById("sidemenu");
-
-            function openmenu(){
-                sidemenu.style.left = "0";
-            }
-
-            function closemenu(){
-                sidemenu.style.left = "-200px";
-            }
-
-        </script>
-    </body>
+      function closemenu() {
+        sidemenu.style.left = "-200px";
+      }
+    </script>
+  </body>
 </html>
