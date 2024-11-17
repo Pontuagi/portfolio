@@ -12,6 +12,8 @@ html {
 body {
   background: #080808;
   color: #fff;
+  margin: 0 auto;
+  padding: 0, 10px;
 }
 
 #header {
@@ -105,6 +107,7 @@ nav ul li a:hover::after {
   flex-wrap: wrap;
   gap: 20px;
   margin: 0 auto;
+  align-items: center;
 }
 
 .about-col-1 {
