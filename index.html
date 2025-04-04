@@ -1,353 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Benedict Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <script
-      src="https://kit.fontawesome.com/2dce5fa11f.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <div id="header">
-      <div class="container">
-        <nav>
-          <img
-            src="images/kipkoech-logo.png"
-            class="logo"
-            alt="Benedict Logo"
-          />
-          <ul id="sidemenu">
-            <li><a href="#header">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <i class="fa-solid fa-x" onclick="closemenu()"></i>
-          </ul>
-          <i class="fa-solid fa-bars" onclick="openmenu()"></i>
-        </nav>
-
-        <div class="header-text">
-          <p>Hi, I am</p>
-          <h1><span>Benedict</span> Kipkoech</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benedict Kipkoech | Full-Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for animations and effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .work-item:hover .work-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .work-overlay {
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .tab-link.active {
+            border-bottom: 2px solid #3b82f6;
+            color: #3b82f6;
+        }
+        
+        #mobile-menu {
+            transition: transform 0.3s ease-out;
+        }
+        
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full z-50 glass-effect">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="images/bg.png" alt="Benedict Logo" class="h-10 w-10 rounded-full">
+                    <span class="ml-3 text-xl font-bold gradient-text">Benedict Kipkoech</span>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="hover:text-blue-400 transition">Home</a>
+                    <a href="#about" class="hover:text-blue-400 transition">About</a>
+                    <a href="#services" class="hover:text-blue-400 transition">Services</a>
+                    <a href="#portfolio" class="hover:text-blue-400 transition">Portfolio</a>
+                    <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
+                </nav>
+                
+                <button id="menu-toggle" class="md:hidden focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
         </div>
-        <img
-          src="images/background.jpeg"
-          class="round-image"
-          alt="Benedict Kipkoech"
-        />
-      </div>
-    </div>
-    <!-- ------------------------About------------------------ -->
-    <div id="about">
-      <div class="container">
-        <div class="row">
-          <div class="about-col-2">
-            <h1 class="sub_title">About Me</h1>
-            <p>
-              <br />
-              As a seasoned full-stack software engineer, I bring comprehensive
-              proficiency in both front-end and back-end development, fueled by
-              an insatiable curiosity and a relentless dedication to lifelong
-              learning.
-              <br /><br />
-              My educational background at Alx Africa provided the foundation
-              for my skills in C, Python, JavaScript, and mastery of frameworks
-              such as Django, NodeJs, and Tailwind, positioning me to excel in
-              backend roles.
-              <br /><br />
-              In addition to my programming expertise, I am adept in various
-              software technologies including Linux, Docker, Git/Github,
-              application and web servers, and databases such as MySQL, MongoDB,
-              and PostgreSQL. My familiarity with unit-tests, test-driven
-              development, and scripting further enhances my capabilities.
-              <br /><br />
-              My career aspirations center on the realm of technology,
-              especially within automation companies and the innovation of local
-              household tech items. I am drawn to the potential of technology to
-              create systems that simplify work processes and improve the lives
-              of future generations, driving my journey in the tech industry.
-            </p>
-
-            <div class="tab-titles">
-              <p class="tab-links active-link" onclick="opentab('skills')">
-                Technical Skills
-              </p>
-              <p class="tab-links" onclick="opentab('professional Skills')">
-                Professional Skills
-              </p>
-              <p class="tab-links" onclick="opentab('education')">Education</p>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden fixed inset-0 bg-gray-900 bg-opacity-90 z-50 transform -translate-x-full">
+            <div class="flex justify-end p-6">
+                <button id="menu-close" class="focus:outline-none">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
             </div>
-
-            <div class="tab-contents active-tab" id="skills">
-              <ul>
-                <li>
-                  <span>Full-stack Web Developer</span><br />Linux, Git/Github,
-                  C & Python Programming, MySQL, Debugging, Automation Scripts,
-                  Servers, SSH, Javascript, HTML, CSS, Network Basics, Test
-                  Driven Development, Regular Expressions, Web Frameworks, APIs,
-                  MongoDB, and Collaborations.
-                </li>
-                <li>
-                  <span>Front-end Developer</span><br />HTML, CSS, JavaScript,
-                  React, Next.js
-                </li>
-                <li>
-                  <span>Back-end Developer</span><br />Python, Django, NodeJs
-                </li>
-              </ul>
+            <div class="flex flex-col items-center justify-center h-full space-y-10">
+                <a href="#home" class="text-2xl hover:text-blue-400 transition">Home</a>
+                <a href="#about" class="text-2xl hover:text-blue-400 transition">About</a>
+                <a href="#services" class="text-2xl hover:text-blue-400 transition">Services</a>
+                <a href="#portfolio" class="text-2xl hover:text-blue-400 transition">Portfolio</a>
+                <a href="#contact" class="text-2xl hover:text-blue-400 transition">Contact</a>
             </div>
-
-            <div class="tab-contents" id="education">
-              <ul>
-                <li>
-                  <span>Nov 2023 - March 2024</span><br />Back-end
-                  Specialization at ALX Africa
-                </li>
-                <li>
-                  <span>Feb 2023 - Nov 2023</span><br />Full-stack Software
-                  Engineering at ALX Africa
-                </li>
-                <li>
-                  <span>2017 - 2022</span><br />Bachelor of Science in
-                  Mechatronics Engineering at Dedan Kimathi University of
-                  Technology.
-                </li>
-              </ul>
-            </div>
-
-            <div class="tab-contents" id="professional Skills">
-              <ul>
-                <li>Project Management</li>
-                <li>Creativity</li>
-                <li>Teamwork and Collaborations</li>
-                <li>Time Management</li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
+    </header>
 
-    <!-- ------------------------Services------------------------ -->
-    <div id="services">
-      <div class="container">
-        <h1 class="sub_title">My Services</h1>
-        <div class="services-list">
-          <div>
-            <i class="fa-brands fa-android"></i>
-            <!-- Adjust icon to represent mobile development -->
-            <h2>Flutter-Dart Application</h2>
-            <p>
-              I specialize in building cross-platform mobile applications with
-              Flutter and Dart, delivering robust solutions that perform
-              seamlessly on both Android and iOS devices.
-              <br /><br />
-              By leveraging Flutter's single codebase capabilities, I create
-              visually cohesive and high-performance applications that are easy
-              to maintain and scale.
-              <br /><br />
-              Whether you need a new mobile application or want to expand an
-              existing project, I focus on delivering responsive, intuitive, and
-              visually engaging interfaces.
-              <br /><br />
-              Let's work together to bring your mobile app ideas to life,
-              optimizing for user experience and functionality across devices.
-            </p>
-          </div>
-          
-
-          <div>
-            <i class="fa-solid fa-bug"></i>
-            <h2>Django Application</h2>
-            <p>
-              With a strong command of the Django development environment, I
-              possess the skills to create a wide range of applications tailored
-              to your needs. <br /><br />
-              Whether you require web applications, custom solutions, or any
-              other Django-based projects, I have the expertise to bring your
-              ideas to life effectively and efficiently. <br /><br />
-              Feel free to reach out if you need assistance or guidance in
-              Django development - I'm here to help you achieve your goals.
-            </p>
-          </div>
-
-          <div>
-            <i class="fa-solid fa-address-card"></i>
-            <h2>Next.js Application</h2>
-            <p>
-              I specialize in creating high-quality, responsive web applications
-              using Next.js, tailored to individuals and businesses.
-              <br /><br />
-              Leveraging the power of Next.js, I craft visually appealing,
-              user-friendly applications that showcase your brand effectively.
-              <br /><br />
-              By utilizing the latest web technologies and design principles, I
-              ensure seamless performance across devices and excellent user
-              experiences.<br /><br />
-              Whether you're an individual building your online presence or a
-              company showcasing your offerings, I'm here to create impactful
-              Next.js applications that impress your audience and elevate your
-              online presence. <br /><br />
-              Let's collaborate to bring your vision to life with a standout
-              Next.js application.
-            </p>
-          </div>
-
-          <div>
-            <i class="fa-solid fa-code"></i>
-            <h2>Full-Stack Engineer</h2>
-            <p>
-              Specializing in full-stack software engineering, I have honed
-              expertise in both backend and frontend technologies including
-              Node.js, Django, React, Next.js, AstroJs, Docker, MongoDB,
-              integration tests and Unittests.<br /><br />
-              My proficiency extends to architecting scalable backend systems,
-              crafting reliable server-side logic, and designing intuitive,
-              user-friendly frontend interfaces. <br /><br />
-              I am committed to producing clean, well-tested code, ensuring the
-              reliability and functionality of my implementations across the
-              entire stack. <br /><br />
-              My passion lies in contributing to technological advancements and
-              streamlining processes to enhance user experiences and operational
-              efficiency for businesses and consumers alike.
-            </p>
-          </div>
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 py-20">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 animate-fade-in delay-100">
+                    <p class="text-blue-400 mb-2">Hi, I am</p>
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4">Benedict <span class="gradient-text">Kipkoech</span></h1>
+                    <h2 class="text-2xl md:text-3xl text-gray-400 mb-6">Full-Stack Software Engineer</h2>
+                    <p class="text-gray-300 mb-8 max-w-lg">
+                        I build exceptional digital experiences with modern web technologies.
+                        Passionate about creating solutions that make an impact.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition">Get In Touch</a>
+                        <a href="#portfolio" class="border border-blue-400 text-blue-400 hover:bg-blue-900 hover:bg-opacity-30 px-6 py-3 rounded-lg transition">View Work</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center animate-fade-in delay-200">
+                    <div class="relative">
+                        <img src="images/bg.png" alt="Benedict Kipkoech" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-blue-500">
+                        <div class="absolute -bottom-5 -right-5 bg-blue-600 rounded-full p-3">
+                            <i class="fas fa-code text-white text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- ------------------------Portfolio------------------------ -->
-    <div id="portfolio">
-      <div class="container">
-        <h1 class="sub_title">My Work</h1>
-
-        <div class="work-list">
-          <div class="work">
-            <img src="images/grandmark2.png" alt="GrandMark website image" />
-            <div class="layer">
-              <h3>GrandMark Website</h3>
-              <p>
-                A Next.js project developed for a geospatial company, GrandMark.
-                Utilizes styled-components and Storybook to create a modern,
-                responsive, and user-friendly interface tailored to meet
-                specific geospatial industry needs.
-              </p>
-              <a href="https://www.grandmarksolutionsltd.org/"><i class="fas fa-external-link-alt"></i></a>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16"><span class="gradient-text">About</span> Me</h2>
+            
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/3 mb-10 lg:mb-0 flex justify-center">
+                    <div class="relative">
+                        <img src="images/bg.png" alt="Benedict working" class="rounded-lg w-64 h-80 object-cover">
+                        <div class="absolute -inset-4 border-2 border-blue-500 rounded-lg -z-10"></div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-2/3 lg:pl-12">
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        As a seasoned full-stack software engineer, I bring comprehensive proficiency in both front-end and back-end development, fueled by an insatiable curiosity and a relentless dedication to lifelong learning.
+                    </p>
+                    
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        My educational background at Alx Africa provided the foundation for my skills in C, Python, JavaScript, and mastery of frameworks such as Django, NodeJs, and Tailwind, positioning me to excel in backend roles.
+                    </p>
+                    
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        My career aspirations center on the realm of technology, especially within automation companies and the innovation of local household tech items. I am drawn to the potential of technology to create systems that simplify work processes and improve the lives of future generations.
+                    </p>
+                    
+                    <div class="mb-8">
+                        <div class="flex border-b border-gray-700">
+                            <button class="tab-link py-2 px-4 active" data-tab="skills">Skills</button>
+                            <button class="tab-link py-2 px-4" data-tab="education">Education</button>
+                            <button class="tab-link py-2 px-4" data-tab="professional">Professional</button>
+                        </div>
+                        
+                        <div class="tab-content active mt-6" id="skills">
+                            <h3 class="text-xl font-semibold mb-4">Technical Skills</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">JavaScript</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Python</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Django</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Node.js</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">React</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Next.js</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Flutter</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Docker</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">MongoDB</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">MySQL</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Git</span>
+                                <span class="skill-badge bg-gray-700 px-4 py-2 rounded-full">Linux</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content mt-6" id="education">
+                            <h3 class="text-xl font-semibold mb-4">Education</h3>
+                            <div class="space-y-4">
+                                <div class="border-l-2 border-blue-500 pl-4 py-1">
+                                    <h4 class="font-medium">Back-end Specialization</h4>
+                                    <p class="text-gray-400">ALX Africa • Nov 2023 - March 2024</p>
+                                </div>
+                                <div class="border-l-2 border-blue-500 pl-4 py-1">
+                                    <h4 class="font-medium">Full-stack Software Engineering</h4>
+                                    <p class="text-gray-400">ALX Africa • Feb 2023 - Nov 2023</p>
+                                </div>
+                                <div class="border-l-2 border-blue-500 pl-4 py-1">
+                                    <h4 class="font-medium">BSc Mechatronics Engineering</h4>
+                                    <p class="text-gray-400">Dedan Kimathi University • 2017 - 2022</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content mt-6" id="professional">
+                            <h3 class="text-xl font-semibold mb-4">Professional Skills</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-center">
+                                    <div class="bg-blue-600 p-2 rounded-full mr-3">
+                                        <i class="fas fa-users text-white"></i>
+                                    </div>
+                                    <span>Teamwork & Collaboration</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="bg-blue-600 p-2 rounded-full mr-3">
+                                        <i class="fas fa-lightbulb text-white"></i>
+                                    </div>
+                                    <span>Creativity & Problem Solving</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="bg-blue-600 p-2 rounded-full mr-3">
+                                        <i class="fas fa-tasks text-white"></i>
+                                    </div>
+                                    <span>Project Management</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="bg-blue-600 p-2 rounded-full mr-3">
+                                        <i class="fas fa-clock text-white"></i>
+                                    </div>
+                                    <span>Time Management</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="images/_Kipkoech_Benedict_cv (1).pdf" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition">
+                        Download CV <i class="fas fa-download ml-2"></i>
+                    </a>
+                </div>
             </div>
-          </div>
-
-          <div class="work">
-            <img src="/images/bible-screenshot.jpeg" alt="Bible app image" />
-            <div class="layer">
-              <h3>Bible App</h3>
-              <p>
-                A Flutter and Dart-based Bible application designed for a global
-                audience. The app offers multilingual support, allowing users to
-                select from various languages, with a read-aloud feature for
-                enhanced accessibility.
-              </p>
-              <a href="https://play.google.com/store/apps/details?id=com.world.bible_app"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-
-          <div class="work">
-            <img
-              src="images/victor-screenshot.jpeg"
-              alt="GitHub Pages site image"
-            />
-            <div class="layer">
-              <h3>GitHub Pages Portfolio</h3>
-              <p>
-                A personal portfolio site hosted on GitHub Pages. Built with
-                Jekyll, it showcases projects, skills, and accomplishments,
-                providing an interactive platform for professional presentation.
-              </p>
-              <a href="https://victorkorir1.github.io/"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
         </div>
+    </section>
 
-        <!--<a href="#" class="btn">See more</a> -->
-      </div>
-    </div>
-
-    <!-- ------------------------Contact------------------------ -->
-    <div id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="contact-left">
-            <h1 class="contact_title">Contact Me</h1>
-            <p><i class="fas fa-paper-plane"></i> benepontuagi@gmail.com</p>
-            <p><i class="fas fa-phone"></i> +254 715 909 330</p>
-            <div class="social-icons">
-              <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-              <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-              <a href="#"><i class="fa-brands fa-github"></i></a>
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-4">My <span class="gradient-text">Services</span></h2>
+            <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">
+                I offer a range of services to help bring your digital ideas to life with quality and precision.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-effect p-8 rounded-xl hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Flutter Development</h3>
+                    <p class="text-gray-300">
+                        Building cross-platform mobile applications with Flutter and Dart, delivering robust solutions that perform seamlessly on both Android and iOS devices.
+                    </p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-xl hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-server text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Django Development</h3>
+                    <p class="text-gray-300">
+                        Creating powerful web applications with Django, Python's premier web framework, ensuring security, scalability and maintainability.
+                    </p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-xl hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-globe text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Next.js Development</h3>
+                    <p class="text-gray-300">
+                        Building modern, performant web applications with Next.js, leveraging server-side rendering and static generation for optimal user experience.
+                    </p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-xl hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Full-Stack Solutions</h3>
+                    <p class="text-gray-300">
+                        End-to-end development services from database design to frontend implementation, delivering complete digital solutions tailored to your needs.
+                    </p>
+                </div>
             </div>
-            <a href="images/BenedictCV.pdf" download class="btn btn2"
-              >Download CV</a
-            >
-          </div>
-          <div class="contact-rigth">
-            <form>
-              <input
-                type="text"
-                name="Name"
-                placeholder="Your Full Name"
-                required
-              />
-              <input
-                type="email"
-                name="Email"
-                placeholder="Your Email"
-                required
-              />
-              <textarea
-                name="Message"
-                rows="6"
-                placeholder="Your Message"
-              ></textarea>
-              <button type="submit" class="btn btn2">Submit</button>
-            </form>
-          </div>
         </div>
-      </div>
+    </section>
 
-      <div class="copyright">
-        <p>Copyright © Kipkoech Benedict 2024. All rights reserved.</p>
-      </div>
-    </div>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-4">My <span class="gradient-text">Portfolio</span></h2>
+            <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">
+                Here are some of my recent projects. Each one was crafted with attention to detail and user experience.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="work-item relative rounded-xl overflow-hidden group">
+                    <img src="images/grandmark.png" alt="GrandMark website" class="w-full h-64 object-cover">
+                    <div class="work-overlay absolute inset-0 bg-blue-900 bg-opacity-90 flex flex-col justify-center p-6">
+                        <h3 class="text-xl font-bold mb-2">GrandMark Website</h3>
+                        <p class="text-gray-300 mb-4">
+                            A Next.js project developed for a geospatial company, utilizing styled-components and Storybook.
+                        </p>
+                        <a href="https://www.grandmarksolutionsltd.org/" class="text-blue-400 hover:text-blue-300 inline-flex items-center">
+                            View Project <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="work-item relative rounded-xl overflow-hidden group">
+                    <img src="images/bible-screenshot.jpeg" alt="Bible app" class="w-full h-64 object-cover">
+                    <div class="work-overlay absolute inset-0 bg-blue-900 bg-opacity-90 flex flex-col justify-center p-6">
+                        <h3 class="text-xl font-bold mb-2">Bible App</h3>
+                        <p class="text-gray-300 mb-4">
+                            A Flutter and Dart-based Bible application with multilingual support and read-aloud feature.
+                        </p>
+                        <a href="https://play.google.com/store/apps/details?id=com.world.bible_app" class="text-blue-400 hover:text-blue-300 inline-flex items-center">
+                            View Project <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="work-item relative rounded-xl overflow-hidden group">
+                    <img src="images/victor-screenshot.jpeg" alt="GitHub Pages site" class="w-full h-64 object-cover">
+                    <div class="work-overlay absolute inset-0 bg-blue-900 bg-opacity-90 flex flex-col justify-center p-6">
+                        <h3 class="text-xl font-bold mb-2">GitHub Pages Portfolio</h3>
+                        <p class="text-gray-300 mb-4">
+                            A personal portfolio site hosted on GitHub Pages, built with Jekyll to showcase projects and skills.
+                        </p>
+                        <a href="https://victorkorir1.github.io/" class="text-blue-400 hover:text-blue-300 inline-flex items-center">
+                            View Project <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border border-blue-400 text-blue-400 hover:bg-blue-900 hover:bg-opacity-30 px-6 py-3 rounded-lg transition">
+                    View More Projects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-4">Get In <span class="gradient-text">Touch</span></h2>
+            <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">
+                Have a project in mind or want to discuss potential opportunities? Feel free to reach out!
+            </p>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <div class="glass-effect p-8 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-blue-600 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Email</h4>
+                                    <a href="mailto:benepontuagi@gmail.com" class="text-gray-300 hover:text-blue-400">benepontuagi@gmail.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-600 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Phone</h4>
+                                    <a href="tel:+254715909330" class="text-gray-300 hover:text-blue-400">+254 715 909 330</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-600 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Location</h4>
+                                    <p class="text-gray-300">Nairobi, Kenya</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-medium mb-4">Connect With Me</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-gray-700 hover:bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="bg-gray-700 hover:bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="bg-gray-700 hover:bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="bg-gray-700 hover:bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center transition">
+                                    <i class="fab fa-stack-overflow"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="glass-effect p-8 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-6">Send Me a Message</h3>
+                        
+                        <form class="space-y-4">
+                            <div>
+                                <label for="name" class="block mb-2">Full Name</label>
+                                <input type="text" id="name" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block mb-2">Email Address</label>
+                                <input type="email" id="email" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block mb-2">Subject</label>
+                                <input type="text" id="subject" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block mb-2">Message</label>
+                                <textarea id="message" rows="5" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition">
+                                Send Message <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="images/bg.png" alt="Benedict Logo" class="h-8 w-8 rounded-full mr-2">
+                        <span class="text-xl font-bold gradient-text">Benedict Kipkoech</span>
+                    </div>
+                </div>
+                
+                <div class="text-gray-400 text-sm">
+                    &copy; 2024 Benedict Kipkoech. All rights reserved.
+                </div>
+                
+                <div class="mt-4 md:mt-0">
+                    <a href="#home" class="text-blue-400 hover:text-blue-300 inline-flex items-center">
+                        Back to Top <i class="fas fa-arrow-up ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
-      var tablinks = document.getElementsByClassName("tab-links");
-      var tabcontents = document.getElementsByClassName("tab-contents");
-
-      function opentab(tabname) {
-        for (tablink of tablinks) {
-          tablink.classList.remove("active-link");
-        }
-        for (tabcontent of tabcontents) {
-          tabcontent.classList.remove("active-tab");
-        }
-        event.currentTarget.classList.add("active-link");
-        document.getElementById(tabname).classList.add("active-tab");
-      }
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('-translate-x-full');
+        });
+        
+        menuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('-translate-x-full');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('-translate-x-full');
+            });
+        });
+        
+        // Tab functionality
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const tabId = link.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabLinks.forEach(tab => tab.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                link.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll animation
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.animate-fade-in');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animate-fade-in');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
     </script>
-
-    <script>
-      var sidemenu = document.getElementById("sidemenu");
-
-      function openmenu() {
-        sidemenu.style.left = "0";
-      }
-
-      function closemenu() {
-        sidemenu.style.left = "-200px";
-      }
-    </script>
-  </body>
+</body>
 </html>
