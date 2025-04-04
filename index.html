@@ -107,11 +107,11 @@
                 </button>
             </div>
             <div class="flex flex-col items-center justify-center h-full space-y-10">
-                <a href="#home" class="text-2xl hover:text-blue-400 transition">Home</a>
-                <a href="#about" class="text-2xl hover:text-blue-400 transition">About</a>
-                <a href="#services" class="text-2xl hover:text-blue-400 transition">Services</a>
-                <a href="#portfolio" class="text-2xl hover:text-blue-400 transition">Portfolio</a>
-                <a href="#contact" class="text-2xl hover:text-blue-400 transition">Contact</a>
+                <a href="#home" class="text-2xl hover:text-blue-900 transition">Home</a>
+                <a href="#about" class="text-2xl hover:text-blue-900 transition">About</a>
+                <a href="#services" class="text-2xl hover:text-blue-900 transition">Services</a>
+                <a href="#portfolio" class="text-2xl hover:text-blue-900 transition">Portfolio</a>
+                <a href="#contact" class="text-2xl hover:text-blue-000 transition">Contact</a>
             </div>
         </div>
     </header>
@@ -477,7 +477,7 @@
                 </div>
                 
                 <div class="text-gray-400 text-sm">
-                    &copy; 2024 Benedict Kipkoech. All rights reserved.
+                    &copy;  <span id="year"></span> Benedict Kipkoech. All rights reserved.
                 </div>
                 
                 <div class="mt-4 md:mt-0">
@@ -559,6 +559,8 @@
                 }
             });
         };
+
+        document.getElementById("year").textContent = new Date().getFullYear();
         
         window.addEventListener('scroll', animateOnScroll);
         window.addEventListener('load', animateOnScroll);
