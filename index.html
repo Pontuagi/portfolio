@@ -729,12 +729,13 @@
             <div class="glass-effect p-8 rounded-xl">
               <h3 class="text-xl font-semibold mb-6">Send Me a Message</h3>
 
-              <form class="space-y-4">
+              <form id="contact-form" class="space-y-4">
                 <div>
                   <label for="name" class="block mb-2">Full Name</label>
                   <input
                     type="text"
                     id="name"
+                    name="name"
                     class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -744,6 +745,7 @@
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -753,6 +755,7 @@
                   <input
                     type="text"
                     id="subject"
+                    name="subject"
                     class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -761,6 +764,7 @@
                   <label for="message" class="block mb-2">Message</label>
                   <textarea
                     id="message"
+                    name="message"
                     rows="5"
                     class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   ></textarea>
@@ -773,6 +777,7 @@
                   Send Message <i class="fas fa-paper-plane ml-2"></i>
                 </button>
               </form>
+              <div id="form-message" class="mt-4 text-center"></div>
             </div>
           </div>
         </div>
@@ -888,6 +893,57 @@
 
       window.addEventListener("scroll", animateOnScroll);
       window.addEventListener("load", animateOnScroll);
+
+      // Contact Form Submission
+      const contactForm = document.getElementById('contact-form');
+      const formMessage = document.getElementById('form-message');
+
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(contactForm);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          subject: formData.get('subject'),
+          message: formData.get('message'),
+        };
+
+        if (!data.name || !data.email || !data.subject || !data.message) {
+          formMessage.textContent = 'Please fill out all fields.';
+          formMessage.style.color = 'red';
+          return;
+        }
+
+        formMessage.textContent = 'Sending...';
+        formMessage.style.color = 'white';
+
+        try {
+          // This endpoint is handled by the server code in /functions/send-email.js
+          // You will need to run that server for this to work.
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            formMessage.textContent = 'Message sent successfully!';
+            formMessage.style.color = 'green';
+            contactForm.reset();
+          } else {
+            const result = await response.json();
+            formMessage.textContent = result.error || 'An error occurred.';
+            formMessage.style.color = 'red';
+          }
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          formMessage.textContent = 'An error occurred while sending the message.';
+          formMessage.style.color = 'red';
+        }
+      });
     </script>
   </body>
 </html>
