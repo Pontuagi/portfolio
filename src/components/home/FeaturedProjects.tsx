@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/data/projects";
+import { MotionCard } from "@/components/motion/MotionCard";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 
 export function FeaturedProjects() {
   return (
-    <Section className="bg-emerald-950 text-white">
+    <Section className="bg-emerald-950 text-white dark:bg-[#05100f]">
       <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase text-amber-200">
@@ -20,33 +21,36 @@ export function FeaturedProjects() {
             what I built, and what the work taught me.
           </p>
         </div>
-        <Button href="/projects" variant="secondary" className="bg-white">
+        <Button href="/projects" variant="secondary" className="bg-white dark:bg-white/[0.08]">
           View all projects
         </Button>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         {projects.slice(0, 3).map((project) => (
-          <Link
-            key={project.slug}
-            href="/projects"
-            className="group overflow-hidden rounded-lg border border-white/10 bg-white/10"
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={700}
-              height={520}
-              className="h-64 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-            />
-            <div className="p-6">
-              <p className="text-sm font-semibold uppercase text-amber-200">
-                {project.category}
-              </p>
-              <h3 className="mt-3 text-xl font-bold">{project.title}</h3>
-              <p className="mt-3 leading-7 text-emerald-50/75">{project.summary}</p>
-            </div>
-          </Link>
+          <MotionCard key={project.slug} className="group overflow-hidden rounded-lg">
+            <Link
+              href="/projects"
+              className="block h-full overflow-hidden rounded-lg border border-white/10 bg-white/10 transition hover:bg-white/15"
+            >
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={700}
+                height={520}
+                className="h-64 w-full object-cover transition duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+              />
+              <div className="p-6">
+                <p className="text-sm font-semibold uppercase text-amber-200">
+                  {project.category}
+                </p>
+                <h3 className="mt-3 text-xl font-bold">{project.title}</h3>
+                <p className="mt-3 leading-7 text-emerald-50/75">
+                  {project.summary}
+                </p>
+              </div>
+            </Link>
+          </MotionCard>
         ))}
       </div>
     </Section>

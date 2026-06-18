@@ -179,13 +179,13 @@ export function WriteStoryClient() {
             event.preventDefault();
             completeSignIn();
           } : handleSendLink}
-          className="space-y-6 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6"
+          className="space-y-6 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6 dark:border-white/10 dark:bg-white/[0.07]"
         >
           <div>
-            <h2 className="text-2xl font-bold text-emerald-950">
+            <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
               {needsConfirmation ? "Confirm your email" : "Sign in with email link"}
             </h2>
-            <p className="mt-2 leading-7 text-stone-700">
+            <p className="mt-2 leading-7 text-stone-700 dark:text-emerald-50/75">
               Enter your name and email. We will send a secure link, no password needed.
             </p>
           </div>
@@ -222,7 +222,7 @@ export function WriteStoryClient() {
           <button
             type="submit"
             disabled={working}
-            className="inline-flex min-h-11 items-center justify-center rounded-md bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-teal-500 dark:text-emerald-950 dark:hover:bg-teal-400"
           >
             {working
               ? "Working..."
@@ -239,11 +239,13 @@ export function WriteStoryClient() {
     <div className="mx-auto max-w-3xl">
       <form
         onSubmit={handleSubmitStory}
-        className="space-y-6 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6"
+        className="space-y-6 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6 dark:border-white/10 dark:bg-white/[0.07]"
       >
         <div>
-          <h2 className="text-2xl font-bold text-emerald-950">Submit a short story</h2>
-          <p className="mt-2 text-stone-700">
+          <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
+            Submit a short story
+          </h2>
+          <p className="mt-2 text-stone-700 dark:text-emerald-50/75">
             Signed in as {name || email}. New stories are saved as pending.
           </p>
         </div>
@@ -258,13 +260,22 @@ export function WriteStoryClient() {
           required
         />
         <div className="flex justify-between gap-4 text-sm">
-          <span className={titleTooLong ? "font-semibold text-red-700" : "text-stone-500"}>
+          <span
+            className={
+              titleTooLong
+                ? "font-semibold text-red-700 dark:text-red-200"
+                : "text-stone-500 dark:text-emerald-50/55"
+            }
+          >
             {title.length}/{maxStoryTitleLength} characters
           </span>
         </div>
 
         <div>
-          <label htmlFor="content" className="block text-sm font-semibold text-emerald-950">
+          <label
+            htmlFor="content"
+            className="block text-sm font-semibold text-emerald-950 dark:text-emerald-50"
+          >
             Story
           </label>
           <textarea
@@ -272,13 +283,15 @@ export function WriteStoryClient() {
             value={content}
             onChange={(event) => setContent(event.target.value)}
             rows={14}
-            className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 outline-none focus:border-teal-700"
+            className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 text-emerald-950 outline-none transition focus:border-teal-700 dark:border-white/15 dark:bg-[#071412] dark:text-emerald-50 dark:placeholder:text-emerald-50/40"
             placeholder="Write a complete short story in 500 words or fewer."
             required
           />
           <p
             className={`mt-2 text-sm font-medium ${
-              overWordLimit ? "text-red-700" : "text-stone-500"
+              overWordLimit
+                ? "text-red-700 dark:text-red-200"
+                : "text-stone-500 dark:text-emerald-50/55"
             }`}
           >
             {wordCount}/{maxStoryWords} words
@@ -291,7 +304,7 @@ export function WriteStoryClient() {
         <button
           type="submit"
           disabled={working || overWordLimit || titleTooLong}
-          className="inline-flex min-h-11 items-center justify-center rounded-md bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-11 items-center justify-center rounded-md bg-teal-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-teal-500 dark:text-emerald-950 dark:hover:bg-teal-400"
         >
           {working ? "Submitting..." : "Submit for review"}
         </button>
@@ -321,7 +334,7 @@ function TextField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-emerald-950">
+      <label htmlFor={id} className="block text-sm font-semibold text-emerald-950 dark:text-emerald-50">
         {label}
       </label>
       <input
@@ -329,7 +342,7 @@ function TextField({
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 outline-none focus:border-teal-700"
+        className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 text-emerald-950 outline-none transition focus:border-teal-700 dark:border-white/15 dark:bg-[#071412] dark:text-emerald-50 dark:placeholder:text-emerald-50/40"
         placeholder={placeholder}
         required={required}
         maxLength={maxLength}

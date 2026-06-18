@@ -6,11 +6,11 @@ export default function BlogPage() {
   return (
     <main>
       <PageHeader
-        eyebrow="Blog"
-        title="Short stories from the community."
-        description="Approved stories appear here after review. Readers can filter by author name and expand each card to read the full story."
+        eyebrow="Short Stories"
+        title="Short-stories."
+        description="Permanent stories and approved community submissions live here. Readers can filter by author name and expand each card to read the full story."
       />
-      <Section className="bg-white">
+      <Section className="bg-white dark:bg-[#071412]">
         <BlogListClient />
       </Section>
     </main>

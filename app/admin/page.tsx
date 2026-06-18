@@ -11,7 +11,7 @@ export default function AdminPage() {
         title="Simple admin tools for Blog story submissions."
         description="Admin access is checked with Firebase Auth and the admins collection. This section remains hidden from the public navbar."
       />
-      <Section className="bg-white">
+      <Section className="bg-white dark:bg-[#071412]" animate={false}>
         <AdminLayout>
           <AdminHomeClient />
         </AdminLayout>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { permanentBlogPosts } from "@/data/stories";
 import { getApprovedBlogPosts } from "@/lib/blogService";
 import type { BlogPost } from "@/types/portfolio";
 import { BlogState } from "@/components/blog/BlogState";
@@ -8,7 +9,7 @@ import { ExpandableStoryCard } from "@/components/blog/ExpandableStoryCard";
 import { Button } from "@/components/ui/Button";
 
 export function BlogListClient() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([...permanentBlogPosts]);
   const [authorFilter, setAuthorFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -22,10 +23,11 @@ export function BlogListClient() {
         setError("");
         const approvedPosts = await getApprovedBlogPosts();
         if (mounted) {
-          setPosts(approvedPosts);
+          setPosts([...permanentBlogPosts, ...approvedPosts]);
         }
       } catch (caughtError) {
         if (mounted) {
+          setPosts([...permanentBlogPosts]);
           setError(
             caughtError instanceof Error
               ? caughtError.message
@@ -61,9 +63,11 @@ export function BlogListClient() {
     <div>
       <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-emerald-950">Approved short stories</h2>
-          <p className="mt-2 text-stone-600">
-            Browse community stories, or filter them by author name.
+          <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
+            Short stories
+          </h2>
+          <p className="mt-2 text-stone-600 dark:text-emerald-50/65">
+            Browse permanent stories and approved community submissions.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -74,7 +78,10 @@ export function BlogListClient() {
         </div>
       </div>
 
-      <label htmlFor="authorFilter" className="block text-sm font-semibold text-emerald-950">
+      <label
+        htmlFor="authorFilter"
+        className="block text-sm font-semibold text-emerald-950 dark:text-emerald-50"
+      >
         Filter by author name
       </label>
       <input
@@ -82,7 +89,7 @@ export function BlogListClient() {
         type="search"
         value={authorFilter}
         onChange={(event) => setAuthorFilter(event.target.value)}
-        className="mt-2 w-full max-w-xl rounded-md border border-emerald-950/15 bg-white px-4 py-3 outline-none focus:border-teal-700"
+        className="mt-2 w-full max-w-xl rounded-md border border-emerald-950/15 bg-white px-4 py-3 text-emerald-950 outline-none transition focus:border-teal-700 dark:border-white/15 dark:bg-[#071412] dark:text-emerald-50 dark:placeholder:text-emerald-50/40"
         placeholder="Type an author name"
       />
 
@@ -92,7 +99,7 @@ export function BlogListClient() {
             title="Loading stories"
             description="Fetching approved stories from Firestore."
           />
-        ) : error ? (
+        ) : error && filteredPosts.length === 0 ? (
           <BlogState title="Blog is not ready yet" description={error} tone="error" />
         ) : posts.length === 0 ? (
           <BlogState
@@ -105,11 +112,20 @@ export function BlogListClient() {
             description="Try another author name or clear the filter to see all approved stories."
           />
         ) : (
-          <div className="grid gap-5">
-            {filteredPosts.map((post) => (
-              <ExpandableStoryCard key={post.id} post={post} />
-            ))}
-          </div>
+          <>
+            {error ? (
+              <BlogState
+                title="Community stories could not load"
+                description={error}
+                tone="error"
+              />
+            ) : null}
+            <div className="mt-5 grid gap-5">
+              {filteredPosts.map((post) => (
+                <ExpandableStoryCard key={post.id} post={post} />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

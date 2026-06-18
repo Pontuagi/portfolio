@@ -106,15 +106,17 @@ export function MyStoriesClient() {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-emerald-950">Your submitted stories</h2>
-          <p className="mt-2 text-stone-600">
+          <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
+            Your submitted stories
+          </h2>
+          <p className="mt-2 text-stone-600 dark:text-emerald-50/65">
             Signed in as {user.email}. Approved stories appear publicly on the Blog.
           </p>
         </div>
         <button
           type="button"
           onClick={() => signOutBlogUser()}
-          className="inline-flex min-h-11 items-center justify-center rounded-md border border-emerald-950/15 px-5 py-3 text-sm font-semibold text-teal-800 transition hover:border-teal-700 hover:bg-teal-50"
+          className="inline-flex min-h-11 items-center justify-center rounded-md border border-emerald-950/15 px-5 py-3 text-sm font-semibold text-teal-800 transition hover:border-teal-700 hover:bg-teal-50 dark:border-white/15 dark:text-teal-200 dark:hover:border-teal-300 dark:hover:bg-white/10"
         >
           Sign out
         </button>
@@ -135,7 +137,7 @@ export function MyStoriesClient() {
       ) : (
         groupedPosts.map((group) => (
           <section key={group.status}>
-            <h3 className="text-xl font-bold capitalize text-emerald-950">
+            <h3 className="text-xl font-bold capitalize text-emerald-950 dark:text-emerald-50">
               {group.status}
             </h3>
             <div className="mt-4 space-y-5">

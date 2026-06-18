@@ -11,7 +11,7 @@ export default function ProjectsPage() {
         title="Case studies from web, mobile, and product interface work."
         description="These are not just screenshots. Each project is framed around the problem, the solution, the technologies, and the learning or impact behind it."
       />
-      <Section className="bg-[#f7f5ef]">
+      <Section className="bg-[#f7f5ef] dark:bg-[#0b201d]">
         <div className="space-y-10">
           {projects.map((project, index) => (
             <ProjectCaseStudy

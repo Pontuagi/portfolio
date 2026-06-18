@@ -54,6 +54,7 @@ export type UserProfile = {
 
 export type BlogPost = {
   id: string;
+  slug?: string;
   title: string;
   content: string;
   preview: string;

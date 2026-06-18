@@ -11,7 +11,7 @@ export default function AdminStoriesPage() {
         title="Review and moderate Blog short stories."
         description="Pending submissions are the default focus. Admins can approve, reject, or delete stories from Firestore."
       />
-      <Section className="bg-white">
+      <Section className="bg-white dark:bg-[#071412]" animate={false}>
         <AdminLayout>
           <AdminStoriesClient />
         </AdminLayout>

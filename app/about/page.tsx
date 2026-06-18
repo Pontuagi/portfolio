@@ -17,7 +17,7 @@ export default function AboutPage() {
         description="My background spans mechatronics, full-stack engineering, backend systems, mobile development, and team delivery work."
       />
 
-      <Section className="bg-white">
+      <Section className="bg-white dark:bg-[#071412]">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <Image
             src="/images/office.jpeg"
@@ -26,7 +26,7 @@ export default function AboutPage() {
             height={700}
             className="h-full max-h-[520px] rounded-lg object-cover"
           />
-          <div className="space-y-5 text-lg leading-8 text-stone-700">
+          <div className="space-y-5 text-lg leading-8 text-stone-700 dark:text-emerald-50/75">
             <p>
               As a full-stack software engineer, I bring front-end and back-end
               development together with curiosity, lifelong learning, and a practical
@@ -50,7 +50,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section className="bg-[#f7f5ef]">
+      <Section className="bg-[#f7f5ef] dark:bg-[#0b201d]">
         <div className="grid gap-10 lg:grid-cols-2">
           <TimelineColumn title="Education" items={education} />
           <TimelineColumn title="Experience" items={experience} />
@@ -68,20 +68,26 @@ type TimelineColumnProps = {
 function TimelineColumn({ title, items }: TimelineColumnProps) {
   return (
     <div>
-      <h2 className="text-2xl font-bold text-emerald-950">{title}</h2>
+      <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
+        {title}
+      </h2>
       <div className="mt-8 space-y-5">
         {items.map((item) => (
           <article
             key={`${item.title}-${item.period}`}
-            className="border-l-2 border-teal-700 bg-white/70 py-1 pl-5"
+            className="border-l-2 border-teal-700 bg-white/70 py-1 pl-5 dark:border-teal-300 dark:bg-white/[0.07]"
           >
-            <h3 className="text-lg font-bold text-emerald-950">{item.title}</h3>
-            <p className="mt-1 text-sm font-medium text-stone-500">
+            <h3 className="text-lg font-bold text-emerald-950 dark:text-emerald-50">
+              {item.title}
+            </h3>
+            <p className="mt-1 text-sm font-medium text-stone-500 dark:text-emerald-50/55">
               {item.organization} | {item.period}
             </p>
-            <p className="mt-3 leading-7 text-stone-700">{item.description}</p>
+            <p className="mt-3 leading-7 text-stone-700 dark:text-emerald-50/75">
+              {item.description}
+            </p>
             {item.highlights ? (
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-stone-700">
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-stone-700 dark:text-emerald-50/75">
                 {item.highlights.map((highlight) => (
                   <li key={highlight}>{highlight}</li>
                 ))}

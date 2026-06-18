@@ -86,10 +86,10 @@ export function AdminStoriesClient() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-emerald-950">
+          <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
             Blog story submissions
           </h2>
-          <p className="mt-2 text-stone-600">
+          <p className="mt-2 text-stone-600 dark:text-emerald-50/65">
             Pending stories are shown first by default. Review, approve, reject,
             or delete submissions from Firestore.
           </p>

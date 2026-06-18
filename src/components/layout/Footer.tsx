@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-emerald-950/10 bg-emerald-950 px-5 py-10 text-white sm:px-6 lg:px-8">
+    <footer className="border-t border-emerald-950/10 bg-emerald-950 px-5 py-10 text-white dark:border-white/10 dark:bg-[#05100f] sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
           <Image
@@ -24,7 +24,7 @@ export function Footer() {
             Projects
           </Link>
           <Link href="/blog" className="hover:text-white">
-            Blog
+            Short Stories
           </Link>
           <Link href="/contact" className="hover:text-white">
             Contact

@@ -11,9 +11,9 @@ export default function ContactPage() {
         title="Let us talk about the problem behind the product."
         description="Reach out for full-stack, backend, mobile, automation, or product-focused work. I am based in Nairobi and open to thoughtful collaborations."
       />
-      <Section className="bg-white">
+      <Section className="bg-white dark:bg-[#071412]">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="rounded-lg bg-emerald-950 p-6 text-white">
+          <div className="rounded-lg bg-emerald-950 p-6 text-white dark:bg-[#05100f]">
             <h2 className="text-2xl font-bold">Contact information</h2>
             <div className="mt-8 space-y-5 text-emerald-50/85">
               <ContactLine label="Email" value={site.email} href={`mailto:${site.email}`} />
@@ -25,7 +25,7 @@ export default function ContactPage() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="rounded-md border border-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
+                  className="rounded-md border border-white/15 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
                 >
                   {link.label}
                 </a>
@@ -37,7 +37,7 @@ export default function ContactPage() {
             action={`mailto:${site.email}`}
             method="post"
             encType="text/plain"
-            className="space-y-5 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6"
+            className="space-y-5 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6 dark:border-white/10 dark:bg-white/[0.07]"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Full name" id="name" />
@@ -45,14 +45,17 @@ export default function ContactPage() {
             </div>
             <Field label="Subject" id="subject" />
             <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-emerald-950">
+              <label
+                htmlFor="message"
+                className="block text-sm font-semibold text-emerald-950 dark:text-emerald-50"
+              >
                 Message
               </label>
               <textarea
                 id="message"
                 name="message"
                 rows={7}
-                className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 outline-none focus:border-teal-700"
+                className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 text-emerald-950 outline-none transition focus:border-teal-700 dark:border-white/15 dark:bg-[#071412] dark:text-emerald-50 dark:placeholder:text-emerald-50/40"
                 placeholder="Tell me what you are building or trying to solve."
               />
             </div>
@@ -100,14 +103,14 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-emerald-950">
+      <label htmlFor={id} className="block text-sm font-semibold text-emerald-950 dark:text-emerald-50">
         {label}
       </label>
       <input
         id={id}
         name={id}
         type={type}
-        className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 outline-none focus:border-teal-700"
+        className="mt-2 w-full rounded-md border border-emerald-950/15 bg-white px-4 py-3 text-emerald-950 outline-none transition focus:border-teal-700 dark:border-white/15 dark:bg-[#071412] dark:text-emerald-50"
       />
     </div>
   );

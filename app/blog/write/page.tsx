@@ -10,7 +10,7 @@ export default function WriteStoryPage() {
         title="Submit a short story with passwordless sign-in."
         description="Provide your name and email, open the secure Firebase sign-in link, then submit a story in 500 words or fewer."
       />
-      <Section className="bg-white">
+      <Section className="bg-white dark:bg-[#071412]">
         <WriteStoryClient />
       </Section>
     </main>

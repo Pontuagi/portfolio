@@ -28,23 +28,25 @@ export function AdminStoryCard({
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <span className={statusClassName(post.status)}>{post.status}</span>
-            <span className="text-sm text-stone-500">
+            <span className="text-sm text-stone-500 dark:text-emerald-50/55">
               {post.createdAt ? formatDate(post.createdAt) : "No created date"}
             </span>
           </div>
-          <h2 className="mt-3 text-xl font-bold text-emerald-950">{post.title}</h2>
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-600">
+          <h2 className="mt-3 text-xl font-bold text-emerald-950 dark:text-emerald-50">
+            {post.title}
+          </h2>
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-600 dark:text-emerald-50/65">
             <span>{post.authorName}</span>
             <span>{post.authorEmail}</span>
             <span>{post.wordCount} words</span>
           </div>
-          <p className="mt-4 whitespace-pre-line leading-7 text-stone-700">
+          <p className="mt-4 whitespace-pre-line leading-7 text-stone-700 dark:text-emerald-50/75">
             {expanded ? post.content : post.preview}
           </p>
           <button
             type="button"
             onClick={() => setExpanded((value) => !value)}
-            className="mt-4 text-sm font-semibold text-teal-800 hover:text-teal-950"
+            className="mt-4 text-sm font-semibold text-teal-800 transition hover:text-teal-950 dark:text-teal-200 dark:hover:text-teal-100"
           >
             {expanded ? "Show less" : "Read more"}
           </button>
@@ -73,12 +75,12 @@ function statusClassName(status: BlogPost["status"]) {
   const base = "rounded-full px-3 py-1 text-sm font-semibold capitalize";
 
   if (status === "approved") {
-    return `${base} bg-teal-100 text-teal-900`;
+    return `${base} bg-teal-100 text-teal-900 dark:bg-teal-300/15 dark:text-teal-100`;
   }
 
   if (status === "rejected") {
-    return `${base} bg-red-100 text-red-900`;
+    return `${base} bg-red-100 text-red-900 dark:bg-red-400/15 dark:text-red-100`;
   }
 
-  return `${base} bg-amber-100 text-amber-950`;
+  return `${base} bg-amber-100 text-amber-950 dark:bg-amber-300/15 dark:text-amber-100`;
 }

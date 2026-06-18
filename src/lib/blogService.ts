@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  documentId,
   getDocs,
   limit,
   orderBy,
@@ -10,6 +11,7 @@ import {
   where,
   type DocumentData,
 } from "firebase/firestore";
+import { permanentBlogPosts } from "@/data/stories";
 import type { BlogPost, BlogStatus } from "@/types/portfolio";
 import { db, requireFirebase } from "@/lib/firebase";
 
@@ -103,6 +105,39 @@ export async function getApprovedBlogPosts(authorName?: string) {
   );
 }
 
+export async function getApprovedBlogPostByStoryId(storyId: string) {
+  const decodedStoryId = decodeURIComponent(storyId);
+  const permanentPost = permanentBlogPosts.find(
+    (post) =>
+      post.status === "approved" &&
+      (post.slug === decodedStoryId || post.id === decodedStoryId),
+  );
+
+  if (permanentPost) {
+    return permanentPost;
+  }
+
+  if (!db) {
+    return null;
+  }
+
+  const snapshot = await getDocs(
+    query(
+      collection(db, "blogPosts"),
+      where(documentId(), "==", decodedStoryId),
+      where("status", "==", "approved"),
+      limit(1),
+    ),
+  );
+
+  const docSnapshot = snapshot.docs[0];
+  if (!docSnapshot) {
+    return null;
+  }
+
+  return mapBlogPost(docSnapshot.id, docSnapshot.data());
+}
+
 export async function getUserBlogPosts(authorId: string) {
   if (!db) {
     throw new Error("Firebase is not configured.");
@@ -125,6 +160,7 @@ export async function getUserBlogPosts(authorId: string) {
 function mapBlogPost(id: string, data: DocumentData): BlogPost {
   return {
     id,
+    slug: typeof data.slug === "string" && data.slug.trim() ? data.slug : undefined,
     title: String(data.title ?? ""),
     content: String(data.content ?? ""),
     preview: String(data.preview ?? ""),
