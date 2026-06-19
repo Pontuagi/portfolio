@@ -30,7 +30,7 @@ export const db: Firestore | null = firebaseApp ? getFirestore(firebaseApp) : nu
 export function requireFirebase() {
   if (!auth || !db) {
     throw new Error(
-      "Firebase is not configured. Add the NEXT_PUBLIC_FIREBASE_* environment variables and restart the dev server.",
+      "Firebase is not configured. Add the Firebase web client environment variables and restart the dev server.",
     );
   }
 

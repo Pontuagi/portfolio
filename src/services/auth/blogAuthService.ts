@@ -1,4 +1,3 @@
-import { FirebaseError } from "firebase/app";
 import {
   browserLocalPersistence,
   isSignInWithEmailLink,
@@ -12,19 +11,26 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import type { UserProfile } from "@/types/portfolio";
-import { auth, db, requireFirebase } from "@/lib/firebase";
+import { auth, db, requireFirebase } from "@/config/firebase";
+import { getFirebaseAuthErrorMessage } from "@/services/auth/firebaseAuthErrors";
+import {
+  clearPendingBlogIdentity,
+  clearStorySession,
+  ensureStorySessionStarted,
+  getPendingBlogIdentity,
+  isStorySessionExpired,
+  markStorySessionStarted,
+  savePendingBlogIdentity,
+} from "@/services/auth/sessionStorage";
 
-const pendingEmailKey = "portfolioBlogPendingEmail";
-const pendingNameKey = "portfolioBlogPendingName";
-const sessionStartedAtKey = "portfolioStorySessionStartedAt";
-const sessionMaxAgeMs = 7 * 24 * 60 * 60 * 1000;
 let persistencePromise: Promise<void> | null = null;
 
-export function getAppUrl() {
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "");
-  }
+export { getPendingBlogIdentity };
 
+/**
+ * Returns the browser origin used for Firebase email-link redirects.
+ */
+export function getAppUrl() {
   if (typeof window !== "undefined") {
     return window.location.origin;
   }
@@ -52,10 +58,7 @@ export async function sendBlogSignInLink(name: string, email: string) {
     throw new Error(getFirebaseAuthErrorMessage(error));
   }
 
-  if (typeof window !== "undefined") {
-    window.localStorage.setItem(pendingEmailKey, trimmedEmail);
-    window.localStorage.setItem(pendingNameKey, trimmedName);
-  }
+  savePendingBlogIdentity(trimmedName, trimmedEmail);
 }
 
 export function hasEmailSignInLink(url: string) {
@@ -66,17 +69,9 @@ export function hasEmailSignInLink(url: string) {
   return isSignInWithEmailLink(auth, url);
 }
 
-export function getPendingBlogIdentity() {
-  if (typeof window === "undefined") {
-    return { name: "", email: "" };
-  }
-
-  return {
-    name: window.localStorage.getItem(pendingNameKey) ?? "",
-    email: window.localStorage.getItem(pendingEmailKey) ?? "",
-  };
-}
-
+/**
+ * Completes Firebase email-link sign-in and stores the display profile used by story submissions.
+ */
 export async function completeBlogEmailSignIn(email: string, name: string, url: string) {
   const { auth } = requireFirebase();
   const trimmedEmail = email.trim().toLowerCase();
@@ -104,8 +99,7 @@ export async function completeBlogEmailSignIn(email: string, name: string, url: 
   });
 
   if (typeof window !== "undefined") {
-    window.localStorage.removeItem(pendingEmailKey);
-    window.localStorage.removeItem(pendingNameKey);
+    clearPendingBlogIdentity();
     markStorySessionStarted();
     window.history.replaceState({}, document.title, "/stories/write");
   }
@@ -204,28 +198,6 @@ export function getUserProfileFromAuth(user: User, fallbackName = ""): UserProfi
   };
 }
 
-function getFirebaseAuthErrorMessage(error: unknown) {
-  if (error instanceof FirebaseError) {
-    if (error.code === "auth/configuration-not-found") {
-      return "Firebase Authentication is not enabled for this project yet. In Firebase Console, open Authentication > Sign-in method, enable Email/Password, enable Email link passwordless sign-in, save, and make sure localhost plus your deployed domain are authorized.";
-    }
-
-    if (error.code === "auth/operation-not-allowed") {
-      return "Email sign-in is not enabled in Firebase Authentication. Enable Email/Password and Email link passwordless sign-in in Firebase Console, then try again.";
-    }
-
-    if (error.code === "auth/unauthorized-domain") {
-      return "This domain is not authorized in Firebase Authentication. Add localhost and your deployed domain under Authentication > Settings > Authorized domains.";
-    }
-
-    if (error.code === "auth/invalid-email") {
-      return "Please enter a valid email address.";
-    }
-  }
-
-  return error instanceof Error ? error.message : "Could not complete Firebase sign-in.";
-}
-
 function ensureBrowserAuthPersistence() {
   if (!auth || typeof window === "undefined") {
     return Promise.resolve();
@@ -234,39 +206,4 @@ function ensureBrowserAuthPersistence() {
   persistencePromise ??= setPersistence(auth, browserLocalPersistence);
 
   return persistencePromise;
-}
-
-function markStorySessionStarted() {
-  window.localStorage.setItem(sessionStartedAtKey, String(Date.now()));
-}
-
-function ensureStorySessionStarted() {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  if (!window.localStorage.getItem(sessionStartedAtKey)) {
-    markStorySessionStarted();
-  }
-}
-
-function clearStorySession() {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.removeItem(sessionStartedAtKey);
-}
-
-function isStorySessionExpired() {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  const startedAt = Number(window.localStorage.getItem(sessionStartedAtKey));
-  if (!Number.isFinite(startedAt) || startedAt <= 0) {
-    return false;
-  }
-
-  return Date.now() - startedAt > sessionMaxAgeMs;
 }

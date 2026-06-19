@@ -1,4 +1,5 @@
 import type { BlogPost, Story } from "@/types/portfolio";
+import { countWords, createPreview } from "@/services/blog/validation";
 
 const permanentPublishedAt = new Date("2026-06-18T00:00:00.000Z");
 
@@ -75,16 +76,3 @@ export const stories: readonly Story[] = permanentStoryInputs.map((story) => ({
   readTime: `${Math.max(1, Math.ceil(countWords(story.content) / 200))} min read`,
   status: "published",
 }));
-
-function countWords(value: string) {
-  return value
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
-}
-
-function createPreview(content: string) {
-  const words = content.trim().split(/\s+/).filter(Boolean);
-  const previewWords = words.slice(0, 34).join(" ");
-  return words.length > 34 ? `${previewWords}...` : previewWords;
-}

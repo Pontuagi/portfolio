@@ -14,7 +14,7 @@ The static portfolio pages do not require Firebase.
 
 ## Firebase Initialization
 
-Firebase setup lives in `src/lib/firebase.ts`.
+Firebase setup lives in `src/config/firebase.ts`.
 
 The app reads:
 
@@ -30,11 +30,13 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 
 If the required values exist, Firebase Auth and Firestore clients are initialized. If any required value is missing, `auth` and `db` are `null`. `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` is optional and is used only for Firebase Analytics in supported browsers.
 
+These Firebase web config values are public browser identifiers. Do not store private service-account keys or admin credentials in `NEXT_PUBLIC_*` variables. Secure the app with Firebase authorized domains, Firestore rules, and Google Cloud API key restrictions.
+
 `requireFirebase()` throws an explicit error when a Firebase-dependent action is used without configuration.
 
 ## Authentication Flow
 
-Authentication helpers live in `src/lib/auth.ts`.
+Authentication helpers live in `src/services/auth/blogAuthService.ts`.
 
 Main functions:
 
@@ -45,7 +47,7 @@ Main functions:
 - `signOutBlogUser()`: signs out the current user.
 - `getUserProfile(userId)`: reads `users/{userId}`.
 
-`NEXT_PUBLIC_APP_URL` controls the return URL used in email sign-in links. The target route is `/stories/write`.
+Email sign-in links use the current browser origin and target `/stories/write`.
 
 ## Firestore Collections
 
@@ -128,11 +130,11 @@ createdAt: server timestamp
 
 After this, `/admin` and `/admin/stories` are available to that signed-in user.
 
-`ADMIN_SETUP.md` contains the short checklist version of this process.
+[ADMIN_SETUP.md](ADMIN_SETUP.md) contains the short checklist version of this process.
 
 ## Admin Service
 
-Admin operations live in `src/lib/adminService.ts`.
+Admin operations live in `src/services/admin/adminService.ts`.
 
 Main functions:
 
@@ -144,7 +146,7 @@ Main functions:
 
 ## Blog Service
 
-Blog operations live in `src/lib/blogService.ts`.
+Blog operations live in `src/services/blog/`.
 
 Main functions:
 

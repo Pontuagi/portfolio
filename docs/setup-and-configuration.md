@@ -28,6 +28,7 @@ Next.js prints the local server URL. It is usually `http://localhost:3000`.
 | `npm run build` | Create a production build. |
 | `npm run start` | Start the production server after building. |
 | `npm run lint` | Run ESLint across the project. |
+| `npm run test` | Run Vitest coverage for service helpers, utilities, and content integrity. |
 | `npm run typecheck` | Run TypeScript with `tsc --noEmit`. |
 
 ## Environment Variables
@@ -42,16 +43,18 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+APP_URL=http://localhost:3000
 ```
 
 `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` is optional and enables Firebase Analytics in supported browsers.
 
-`NEXT_PUBLIC_APP_URL` is used when Firebase sends email sign-in links. In production, set it to the deployed origin, for example:
+`APP_URL` is server-only and is used for absolute server-rendered links. In production, set it to the deployed origin, for example:
 
 ```bash
-NEXT_PUBLIC_APP_URL=https://example.com
+APP_URL=https://example.com
 ```
+
+The Firebase `NEXT_PUBLIC_FIREBASE_*` values are web client identifiers, not private server secrets. They are bundled into the browser because Firebase Auth and Firestore run in client components. Restrict the API key to your production domains in Google Cloud, keep Firebase authorized domains tight, and deploy the Firestore rules before release.
 
 ## Firebase Setup
 
@@ -63,7 +66,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 6. Add local and production domains to Firebase Authentication authorized domains.
 7. Deploy or paste the rules from `firestore.rules`.
 8. Sign in once through `/stories/write`.
-9. Create the first admin document manually, following `ADMIN_SETUP.md`.
+9. Create the first admin document manually, following [ADMIN_SETUP.md](ADMIN_SETUP.md).
 
 ## Firestore Rules
 
@@ -96,6 +99,7 @@ Before deploying:
 
 ```bash
 npm run lint
+npm run test
 npm run typecheck
 npm run build
 ```
@@ -105,7 +109,7 @@ Fix all errors before release. A successful build confirms that routes, imports,
 ## Deployment Checklist
 
 - Environment variables are configured in the hosting provider.
-- `NEXT_PUBLIC_APP_URL` matches the deployed site.
+- `APP_URL` matches the deployed site.
 - Firebase email-link sign-in is enabled.
 - Firebase authorized domains include the deployed domain.
 - Firestore rules are deployed.
@@ -117,7 +121,7 @@ Fix all errors before release. A successful build confirms that routes, imports,
 
 ### Email Sign-In Link Opens The Wrong URL
 
-Check `NEXT_PUBLIC_APP_URL`. It must be the same origin where the app is running.
+Check `APP_URL`. It must be the deployed origin used for server-rendered absolute links. Browser email sign-in links use the current page origin.
 
 ### Firebase Says Domain Is Unauthorized
 

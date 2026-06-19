@@ -6,7 +6,7 @@ import {
   deleteBlogPost,
   getAdminBlogPosts,
   rejectBlogPost,
-} from "@/lib/adminService";
+} from "@/services/admin/adminService";
 import type { BlogPost, BlogStatus } from "@/types/portfolio";
 import { AdminStatusFilter } from "@/components/admin/AdminStatusFilter";
 import { AdminStoryCard } from "@/components/admin/AdminStoryCard";

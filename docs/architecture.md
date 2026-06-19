@@ -8,9 +8,13 @@ At a high level:
 
 - `app/` defines routes, page-level composition, metadata, and the root layout.
 - `src/components/` contains reusable UI and feature components.
+- `src/config/` contains runtime configuration boundaries.
 - `src/data/` contains editable portfolio content.
-- `src/lib/` contains integration and domain services.
+- `src/hooks/` contains reusable client-side workflow state.
+- `src/lib/` contains lightweight site, motion, and link helpers.
+- `src/services/` contains Firebase integrations, domain services, and reusable pure helpers.
 - `src/types/` defines shared TypeScript types.
+- `tests/` contains Vitest coverage for services, utilities, and content integrity.
 - `public/images/` stores assets served by Next.js.
 
 ## Route Map
@@ -123,11 +127,11 @@ Firestore content uses:
 
 1. A visitor opens `/stories/write`.
 2. `WriteStoryClient` asks for a name and email.
-3. `sendBlogSignInLink` in `src/lib/auth.ts` sends a Firebase email sign-in link.
+3. `sendBlogSignInLink` in `src/services/auth/blogAuthService.ts` sends a Firebase email sign-in link.
 4. After the link is opened, `completeBlogEmailSignIn` signs the user in and upserts `users/{userId}`.
-5. `createBlogPost` in `src/lib/blogService.ts` validates title/content and writes a pending `blogPosts` document.
+5. `createBlogPost` in `src/services/blog/blogService.ts` validates title/content and writes a pending `blogPosts` document.
 6. Admins review submissions in `/admin/stories`.
-7. `approveBlogPost`, `rejectBlogPost`, or `deleteBlogPost` in `src/lib/adminService.ts` update Firestore.
+7. `approveBlogPost`, `rejectBlogPost`, or `deleteBlogPost` in `src/services/admin/adminService.ts` update Firestore.
 8. Approved stories appear on `/stories` and individual story pages.
 
 ## Permanent Stories
@@ -136,7 +140,7 @@ Firestore content uses:
 
 ## Firebase Boundary
 
-`src/lib/firebase.ts` initializes Firebase only when every required `NEXT_PUBLIC_FIREBASE_*` value is available. It exports:
+`src/config/firebase.ts` initializes Firebase only when every required `NEXT_PUBLIC_FIREBASE_*` value is available. It exports:
 
 - `isFirebaseConfigured`
 - `firebaseApp`
@@ -146,7 +150,9 @@ Firestore content uses:
 
 Components and services that require Firebase throw helpful errors when Firebase is not configured. Public static portfolio sections do not need Firebase.
 
-Firebase Analytics initializes once in the browser through `src/components/FirebaseAnalytics.tsx` and `src/lib/firebaseAnalytics.ts` when `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` is configured.
+Firebase Analytics initializes once in the browser through `src/components/FirebaseAnalytics.tsx` and `src/services/analytics/firebaseAnalytics.ts` when `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` is configured.
+
+The Firebase web config is intentionally public because Firebase Auth and Firestore run in browser components. Server-only values, such as `APP_URL`, must not use the `NEXT_PUBLIC_` prefix.
 
 ## Styling
 
@@ -177,7 +183,7 @@ import { Button } from "@/components/ui/Button";
 ## Operational Risks To Watch
 
 - Blog and admin pages depend on Firebase environment variables.
-- Firebase email-link sign-in requires authorized domains and a correct `NEXT_PUBLIC_APP_URL`.
+- Firebase email-link sign-in requires authorized domains for the local and production origins.
 - Firestore queries with `where` and `orderBy` may require indexes in Firebase Console.
 - Public story reads are restricted to approved posts by Firestore rules.
 - Admins must be created manually in Firestore because the client cannot create admin records.

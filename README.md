@@ -43,13 +43,14 @@ Run quality checks:
 
 ```bash
 npm run lint
+npm run test
 npm run typecheck
 npm run build
 ```
 
 ## Environment Variables
 
-Firebase features require these public environment variables:
+Firebase features require these browser environment variables:
 
 ```bash
 NEXT_PUBLIC_FIREBASE_API_KEY=
@@ -59,10 +60,10 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
-NEXT_PUBLIC_APP_URL=
+APP_URL=
 ```
 
-The portfolio pages can render without Firebase configuration, but blog submission, user story lists, and admin moderation require it. `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` is optional and enables Firebase Analytics in supported browsers.
+The portfolio pages can render without Firebase configuration, but blog submission, user story lists, and admin moderation require it. Firebase web config values are intentionally available to browser code; protect the project with Firebase Auth authorized domains, Firestore rules, and Google Cloud API key restrictions. `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` is optional and enables Firebase Analytics in supported browsers. `APP_URL` is server-only and is used for absolute server-rendered links.
 
 ## Main Routes
 
@@ -89,16 +90,20 @@ Detailed repository documentation lives in `docs/`:
 - [Content guide](docs/content-guide.md)
 - [Firebase and admin guide](docs/firebase-and-admin.md)
 
-There is also a focused first-admin checklist in [ADMIN_SETUP.md](ADMIN_SETUP.md).
+There is also a focused first-admin checklist in [docs/ADMIN_SETUP.md](docs/ADMIN_SETUP.md).
 
 ## Repository Layout
 
 ```text
 app/                 Next.js App Router pages and global layout
-src/components/      Shared UI, layout, home, blog, admin, and project components
+src/components/      Shared UI plus feature components for home, blog, admin, about, contact, and projects
+src/config/          Runtime configuration such as Firebase initialization
 src/data/            Typed portfolio, skills, timeline, project, and permanent story data
-src/lib/             Firebase setup, auth helpers, blog services, admin services, site config
+src/hooks/           Reusable client-side state and workflow hooks
+src/lib/             Site metadata, motion presets, and URL helpers
+src/services/        Firebase-backed auth, blog, admin, analytics, and pure domain helpers
 src/types/           Shared TypeScript domain types
+tests/               Vitest coverage for services, utilities, and content integrity
 public/images/       Public images and PDFs used by the site
 images/              Source image/PDF copies
 docs/                Repository documentation
@@ -127,7 +132,7 @@ Admin access is controlled by a Firestore document at `admins/{userId}` with a r
 ## Deployment Notes
 
 1. Configure the Firebase environment variables in the hosting provider.
-2. Set `NEXT_PUBLIC_APP_URL` to the deployed site origin so Firebase email sign-in links return to the correct route.
+2. Set `APP_URL` to the deployed site origin for server-rendered absolute links.
 3. Deploy the Firestore rules in `firestore.rules`.
 4. Enable Firebase email-link sign-in and authorize the local and production domains.
 5. Run `npm run build` before release.

@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { permanentBlogPosts } from "@/data/stories";
-import { getApprovedBlogPosts } from "@/lib/blogService";
-import { isFirebaseConfigured } from "@/lib/firebase";
+import { getApprovedBlogPosts } from "@/services/blog";
+import { isFirebaseConfigured } from "@/config/firebase";
 import type { BlogPost } from "@/types/portfolio";
 import { BlogState } from "@/components/blog/BlogState";
 import { ExpandableStoryCard } from "@/components/blog/ExpandableStoryCard";

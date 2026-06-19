@@ -12,7 +12,7 @@ export function getStoryPath(post: StoryLinkTarget) {
 
 export function getAbsoluteStoryUrl(post: StoryLinkTarget) {
   const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ??
+    process.env.APP_URL?.replace(/\/$/, "") ??
     (typeof window !== "undefined" ? window.location.origin : "");
 
   return `${appUrl}${getStoryPath(post)}`;

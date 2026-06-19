@@ -9,11 +9,10 @@ import {
   serverTimestamp,
   updateDoc,
   where,
-  Timestamp,
-  type DocumentData,
 } from "firebase/firestore";
-import type { AdminProfile, AdminRole, BlogPost, BlogStatus } from "@/types/portfolio";
-import { db } from "@/lib/firebase";
+import type { AdminProfile, AdminRole, BlogStatus } from "@/types/portfolio";
+import { db } from "@/config/firebase";
+import { mapBlogPost, toDate } from "@/services/blog/mappers";
 
 export async function getAdminProfile(userId: string): Promise<AdminProfile | null> {
   if (!db) {
@@ -87,43 +86,6 @@ export async function deleteBlogPost(postId: string) {
   await deleteDoc(doc(db, "blogPosts", postId));
 }
 
-function mapBlogPost(id: string, data: DocumentData): BlogPost {
-  return {
-    id,
-    title: String(data.title ?? ""),
-    content: String(data.content ?? ""),
-    preview: String(data.preview ?? ""),
-    wordCount: Number(data.wordCount ?? 0),
-    authorId: String(data.authorId ?? ""),
-    authorName: String(data.authorName ?? "Unknown author"),
-    authorEmail: String(data.authorEmail ?? ""),
-    status: isBlogStatus(data.status) ? data.status : "pending",
-    createdAt: toDate(data.createdAt),
-    updatedAt: toDate(data.updatedAt),
-    publishedAt: toDate(data.publishedAt),
-  };
-}
-
 function isAdminRole(value: unknown): value is AdminRole {
   return value === "owner" || value === "admin";
-}
-
-function isBlogStatus(value: unknown): value is BlogStatus {
-  return value === "pending" || value === "approved" || value === "rejected";
-}
-
-function toDate(value: unknown) {
-  if (!value) {
-    return null;
-  }
-
-  if (value instanceof Timestamp) {
-    return value.toDate();
-  }
-
-  if (value instanceof Date) {
-    return value;
-  }
-
-  return null;
 }

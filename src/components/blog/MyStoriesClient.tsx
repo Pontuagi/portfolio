@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
-import { getUserBlogPosts } from "@/lib/blogService";
-import { signOutBlogUser, subscribeToAuth } from "@/lib/auth";
-import { isFirebaseConfigured } from "@/lib/firebase";
+import { getUserBlogPosts } from "@/services/blog";
+import { signOutBlogUser, subscribeToAuth } from "@/services/auth/blogAuthService";
+import { isFirebaseConfigured } from "@/config/firebase";
 import type { BlogPost, BlogStatus } from "@/types/portfolio";
 import { BlogState } from "@/components/blog/BlogState";
 import { ExpandableStoryCard } from "@/components/blog/ExpandableStoryCard";

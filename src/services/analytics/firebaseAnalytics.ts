@@ -1,7 +1,7 @@
 "use client";
 
 import { getAnalytics, isSupported, type Analytics } from "firebase/analytics";
-import { firebaseApp } from "@/lib/firebase";
+import { firebaseApp } from "@/config/firebase";
 
 let analyticsPromise: Promise<Analytics | null> | null = null;
 

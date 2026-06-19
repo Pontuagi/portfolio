@@ -7,30 +7,22 @@ import {
   orderBy,
   query,
   serverTimestamp,
-  Timestamp,
   where,
-  type DocumentData,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { permanentBlogPosts } from "@/data/stories";
 import type { BlogPost, BlogStatus } from "@/types/portfolio";
-import { db, requireFirebase } from "@/lib/firebase";
+import { db, requireFirebase } from "@/config/firebase";
+import { mapBlogPost } from "@/services/blog/mappers";
+import { validateStoryDraft } from "@/services/blog/validation";
 
-export const maxStoryWords = 500;
-export const maxStoryTitleLength = 80;
-
-export function countWords(value: string) {
-  return value
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
-}
-
-export function createPreview(content: string) {
-  const words = content.trim().split(/\s+/).filter(Boolean);
-  const previewWords = words.slice(0, 34).join(" ");
-  return words.length > 34 ? `${previewWords}...` : previewWords;
-}
+type CreateBlogPostInput = {
+  title: string;
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorEmail: string;
+};
 
 export async function createBlogPost({
   title,
@@ -38,34 +30,9 @@ export async function createBlogPost({
   authorId,
   authorName,
   authorEmail,
-}: {
-  title: string;
-  content: string;
-  authorId: string;
-  authorName: string;
-  authorEmail: string;
-}) {
+}: CreateBlogPostInput) {
   const { db } = requireFirebase();
-  const trimmedTitle = title.trim();
-  const trimmedContent = content.trim();
-  const wordCount = countWords(trimmedContent);
-
-  if (!trimmedTitle) {
-    throw new Error("Please add a story title.");
-  }
-
-  if (trimmedTitle.length > maxStoryTitleLength) {
-    throw new Error(`Titles must be ${maxStoryTitleLength} characters or fewer.`);
-  }
-
-  if (!trimmedContent) {
-    throw new Error("Please write your short story.");
-  }
-
-  if (wordCount > maxStoryWords) {
-    throw new Error(`Stories must be ${maxStoryWords} words or fewer.`);
-  }
-
+  const draft = validateStoryDraft(title, content);
   const trimmedAuthorName = authorName.trim();
   const trimmedAuthorEmail = authorEmail.trim().toLowerCase();
 
@@ -75,10 +42,10 @@ export async function createBlogPost({
 
   try {
     await addDoc(collection(db, "blogPosts"), {
-      title: trimmedTitle,
-      content: trimmedContent,
-      preview: createPreview(trimmedContent),
-      wordCount,
+      title: draft.title,
+      content: draft.content,
+      preview: draft.preview,
+      wordCount: draft.wordCount,
       authorId,
       authorName: trimmedAuthorName,
       authorEmail: trimmedAuthorEmail,
@@ -112,18 +79,6 @@ export async function getApprovedBlogPosts(authorName?: string) {
   return posts.filter((post) =>
     post.authorName.toLowerCase().includes(normalizedAuthor),
   );
-}
-
-function newestPublishedFirst(first: BlogPost, second: BlogPost) {
-  const firstTime =
-    first.publishedAt?.getTime() ?? first.createdAt?.getTime() ?? first.updatedAt?.getTime() ?? 0;
-  const secondTime =
-    second.publishedAt?.getTime() ??
-    second.createdAt?.getTime() ??
-    second.updatedAt?.getTime() ??
-    0;
-
-  return secondTime - firstTime;
 }
 
 export async function getApprovedBlogPostByStoryId(storyId: string) {
@@ -178,42 +133,16 @@ export async function getUserBlogPosts(authorId: string) {
   );
 }
 
-function mapBlogPost(id: string, data: DocumentData): BlogPost {
-  return {
-    id,
-    slug: typeof data.slug === "string" && data.slug.trim() ? data.slug : undefined,
-    title: String(data.title ?? ""),
-    content: String(data.content ?? ""),
-    preview: String(data.preview ?? ""),
-    wordCount: Number(data.wordCount ?? 0),
-    authorId: String(data.authorId ?? ""),
-    authorName: String(data.authorName ?? "Unknown author"),
-    authorEmail: String(data.authorEmail ?? ""),
-    status: isBlogStatus(data.status) ? data.status : "pending",
-    createdAt: toDate(data.createdAt),
-    updatedAt: toDate(data.updatedAt),
-    publishedAt: toDate(data.publishedAt),
-  };
-}
+function newestPublishedFirst(first: BlogPost, second: BlogPost) {
+  const firstTime =
+    first.publishedAt?.getTime() ?? first.createdAt?.getTime() ?? first.updatedAt?.getTime() ?? 0;
+  const secondTime =
+    second.publishedAt?.getTime() ??
+    second.createdAt?.getTime() ??
+    second.updatedAt?.getTime() ??
+    0;
 
-function isBlogStatus(value: unknown): value is BlogStatus {
-  return value === "pending" || value === "approved" || value === "rejected";
-}
-
-function toDate(value: unknown) {
-  if (!value) {
-    return null;
-  }
-
-  if (value instanceof Timestamp) {
-    return value.toDate();
-  }
-
-  if (value instanceof Date) {
-    return value;
-  }
-
-  return null;
+  return secondTime - firstTime;
 }
 
 function getStorySubmissionErrorMessage(error: unknown) {
