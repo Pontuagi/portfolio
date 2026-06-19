@@ -8,15 +8,20 @@ import type { BlogPost } from "@/types/portfolio";
 import { BlogState } from "@/components/blog/BlogState";
 import { ExpandableStoryCard } from "@/components/blog/ExpandableStoryCard";
 import { Button } from "@/components/ui/Button";
+import { ToastViewport, useToastNotifications } from "@/components/ui/Toast";
 
 export function BlogListClient() {
   const [posts, setPosts] = useState<BlogPost[]>([...permanentBlogPosts]);
   const [authorFilter, setAuthorFilter] = useState("");
   const [firebaseAccessible, setFirebaseAccessible] = useState(isFirebaseConfigured);
+  const [fetchingStories, setFetchingStories] = useState(isFirebaseConfigured);
+  const [fetchFailed, setFetchFailed] = useState(false);
+  const { dismissToast, showError, toasts } = useToastNotifications();
 
   useEffect(() => {
     if (!isFirebaseConfigured) {
       setFirebaseAccessible(false);
+      setFetchingStories(false);
       return;
     }
 
@@ -24,6 +29,8 @@ export function BlogListClient() {
 
     async function loadPosts() {
       try {
+        setFetchingStories(true);
+        setFetchFailed(false);
         const approvedPosts = await getApprovedBlogPosts();
         if (mounted) {
           setPosts([...permanentBlogPosts, ...approvedPosts]);
@@ -33,6 +40,12 @@ export function BlogListClient() {
         if (mounted) {
           setPosts([...permanentBlogPosts]);
           setFirebaseAccessible(false);
+          setFetchFailed(true);
+          showError("Failed to fetch stories.");
+        }
+      } finally {
+        if (mounted) {
+          setFetchingStories(false);
         }
       }
     }
@@ -42,7 +55,13 @@ export function BlogListClient() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [showError]);
+
+  const actionTone = fetchFailed
+    ? "attention"
+    : firebaseAccessible
+      ? "default"
+      : "blue";
 
   const filteredPosts = useMemo(() => {
     const normalizedFilter = authorFilter.trim().toLowerCase();
@@ -57,6 +76,7 @@ export function BlogListClient() {
 
   return (
     <div>
+      <ToastViewport toasts={toasts} onDismiss={dismissToast} />
       <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">
@@ -73,6 +93,13 @@ export function BlogListClient() {
           <Button href="/stories/my-stories">My stories</Button>
         </div>
       </div>
+
+      {fetchingStories ? (
+        <div className="mb-6 flex items-center gap-3 rounded-lg border border-sky-800/15 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-900 dark:border-sky-300/20 dark:bg-sky-400/10 dark:text-sky-100">
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-sky-800/25 border-t-sky-800 dark:border-sky-200/25 dark:border-t-sky-200" />
+          <span>Fetching community stories</span>
+        </div>
+      ) : null}
 
       <label
         htmlFor="authorFilter"
@@ -106,7 +133,7 @@ export function BlogListClient() {
               <ExpandableStoryCard
                 key={post.id}
                 post={post}
-                actionTone={firebaseAccessible ? "default" : "blue"}
+                actionTone={actionTone}
               />
             ))}
           </div>

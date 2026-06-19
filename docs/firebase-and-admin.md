@@ -211,6 +211,9 @@ Confirm:
 - Title is present and within 80 characters.
 - Content is present and within 500 words.
 - Firestore rules match the app's validation limits.
+- The latest `firestore.rules` has been deployed after changes to story fields or permissions.
+
+The story form writes to `blogPosts` as the signed-in user. Rules trust `authorId == request.auth.uid` and require a non-empty author name/email, pending status, timestamps, and the story limits.
 
 ### Sign-In Link Says `auth/configuration-not-found`
 

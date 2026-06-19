@@ -18,6 +18,7 @@ import {
 } from "@/lib/blogService";
 import { isFirebaseConfigured } from "@/lib/firebase";
 import { BlogState } from "@/components/blog/BlogState";
+import { ToastViewport, useToastNotifications } from "@/components/ui/Toast";
 
 export function WriteStoryClient() {
   const [user, setUser] = useState<User | null>(null);
@@ -32,6 +33,7 @@ export function WriteStoryClient() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const completingEmailLinkRef = useRef(false);
+  const { dismissToast, showError, showSuccess, toasts } = useToastNotifications();
 
   const wordCount = countWords(content);
   const overWordLimit = wordCount > maxStoryWords;
@@ -112,10 +114,12 @@ export function WriteStoryClient() {
       setName(signedInUser.displayName ?? nameValue.trim());
       setNeedsConfirmation(false);
       setSuccess("You are signed in. You can submit your story now.");
+      showSuccess("You are signed in. You can submit your story now.", "Authentication successful");
     } catch (caughtError) {
-      setError(
-        caughtError instanceof Error ? caughtError.message : "Could not complete sign-in.",
-      );
+      const message =
+        caughtError instanceof Error ? caughtError.message : "Could not complete sign-in.";
+      setError(message);
+      showError(message, "Authentication error");
     } finally {
       completingEmailLinkRef.current = false;
       setAuthLoading(false);
@@ -132,10 +136,12 @@ export function WriteStoryClient() {
       setSuccess("");
       await sendBlogSignInLink(name, email);
       setLinkSent(true);
+      showSuccess("Check your inbox for the secure sign-in link.", "Sign-in link sent");
     } catch (caughtError) {
-      setError(
-        caughtError instanceof Error ? caughtError.message : "Could not send sign-in link.",
-      );
+      const message =
+        caughtError instanceof Error ? caughtError.message : "Could not send sign-in link.";
+      setError(message);
+      showError(message, "Authentication error");
     } finally {
       setWorking(false);
     }
@@ -145,12 +151,26 @@ export function WriteStoryClient() {
     event.preventDefault();
 
     if (!user) {
-      setError("Please sign in before submitting a story.");
+      const message = "Please sign in before submitting a story.";
+      setError(message);
+      showError(message, "Authentication required");
+      return;
+    }
+
+    const storyAuthorEmail = user.email ?? email;
+    const storyAuthorName = name || user.displayName || storyAuthorEmail;
+
+    if (!storyAuthorEmail || !storyAuthorName) {
+      const message = "Please sign in again so your story has a name and email.";
+      setError(message);
+      showError(message, "Authentication error");
       return;
     }
 
     if (overWordLimit || titleTooLong) {
-      setError("Please fix the title or word count before submitting.");
+      const message = "Please fix the title or word count before submitting.";
+      setError(message);
+      showError(message, "Could not submit");
       return;
     }
 
@@ -162,16 +182,18 @@ export function WriteStoryClient() {
         title,
         content,
         authorId: user.uid,
-        authorName: name,
-        authorEmail: email,
+        authorName: storyAuthorName,
+        authorEmail: storyAuthorEmail,
       });
       setTitle("");
       setContent("");
       setSuccess("Your story was submitted for review with status: pending.");
+      showSuccess("Story submitted for review.", "Submission successful");
     } catch (caughtError) {
-      setError(
-        caughtError instanceof Error ? caughtError.message : "Could not submit story.",
-      );
+      const message =
+        caughtError instanceof Error ? caughtError.message : "Could not submit story.";
+      setError(message);
+      showError(message, "Could not submit");
     } finally {
       setWorking(false);
     }
@@ -179,26 +201,33 @@ export function WriteStoryClient() {
 
   if (!isFirebaseConfigured) {
     return (
-      <BlogState
-        title="Firebase environment variables are missing"
-        description="Add the values from .env.example to your local environment and restart the dev server to enable passwordless story submissions."
-        tone="error"
-      />
+      <>
+        <ToastViewport toasts={toasts} onDismiss={dismissToast} />
+        <BlogState
+          title="Firebase environment variables are missing"
+          description="Add the values from .env.example to your local environment and restart the dev server to enable passwordless story submissions."
+          tone="error"
+        />
+      </>
     );
   }
 
   if (authLoading) {
     return (
-      <BlogState
-        title="Checking sign-in"
-        description="Preparing the passwordless story submission flow."
-      />
+      <>
+        <ToastViewport toasts={toasts} onDismiss={dismissToast} />
+        <BlogState
+          title="Checking sign-in"
+          description="Preparing the passwordless story submission flow."
+        />
+      </>
     );
   }
 
   if (!user || needsConfirmation) {
     return (
       <div className="mx-auto max-w-3xl">
+        <ToastViewport toasts={toasts} onDismiss={dismissToast} />
         <form
           onSubmit={needsConfirmation ? (event) => {
             event.preventDefault();
@@ -262,6 +291,7 @@ export function WriteStoryClient() {
 
   return (
     <div className="mx-auto max-w-3xl">
+      <ToastViewport toasts={toasts} onDismiss={dismissToast} />
       <form
         onSubmit={handleSubmitStory}
         className="space-y-6 rounded-lg border border-emerald-950/10 bg-[#f7f5ef] p-6 dark:border-white/10 dark:bg-white/[0.07]"

@@ -11,6 +11,7 @@ import type { BlogPost, BlogStatus } from "@/types/portfolio";
 import { AdminStatusFilter } from "@/components/admin/AdminStatusFilter";
 import { AdminStoryCard } from "@/components/admin/AdminStoryCard";
 import { BlogState } from "@/components/blog/BlogState";
+import { ToastViewport, useToastNotifications } from "@/components/ui/Toast";
 
 export function AdminStoriesClient() {
   const [status, setStatus] = useState<BlogStatus>("pending");
@@ -19,23 +20,28 @@ export function AdminStoriesClient() {
   const [workingPostId, setWorkingPostId] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const { dismissToast, showError, showSuccess, toasts } = useToastNotifications();
 
-  const loadPosts = useCallback(async (nextStatus: BlogStatus) => {
-    try {
-      setLoading(true);
-      setError("");
-      const nextPosts = await getAdminBlogPosts(nextStatus);
-      setPosts(nextPosts);
-    } catch (caughtError) {
-      setError(
-        caughtError instanceof Error
-          ? caughtError.message
-          : "Could not load story submissions.",
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const loadPosts = useCallback(
+    async (nextStatus: BlogStatus) => {
+      try {
+        setLoading(true);
+        setError("");
+        const nextPosts = await getAdminBlogPosts(nextStatus);
+        setPosts(nextPosts);
+      } catch (caughtError) {
+        const message =
+          caughtError instanceof Error
+            ? caughtError.message
+            : "Could not load story submissions.";
+        setError(message);
+        showError(message, "Could not load submissions");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [showError],
+  );
 
   useEffect(() => {
     loadPosts(status);
@@ -58,25 +64,29 @@ export function AdminStoriesClient() {
       if (action === "approve") {
         await approveBlogPost(post.id);
         setSuccess(`Approved "${post.title}".`);
+        showSuccess(`Approved "${post.title}".`, "Story approved");
       }
 
       if (action === "reject") {
         await rejectBlogPost(post.id);
         setSuccess(`Rejected "${post.title}".`);
+        showSuccess(`Rejected "${post.title}".`, "Story rejected");
       }
 
       if (action === "delete") {
         await deleteBlogPost(post.id);
         setSuccess(`Deleted "${post.title}".`);
+        showSuccess(`Deleted "${post.title}".`, "Story deleted");
       }
 
       await loadPosts(status);
     } catch (caughtError) {
-      setError(
+      const message =
         caughtError instanceof Error
           ? caughtError.message
-          : "The admin action could not be completed.",
-      );
+          : "The admin action could not be completed.";
+      setError(message);
+      showError(message, "Admin action failed");
     } finally {
       setWorkingPostId("");
     }
@@ -84,6 +94,7 @@ export function AdminStoriesClient() {
 
   return (
     <div className="space-y-6">
+      <ToastViewport toasts={toasts} onDismiss={dismissToast} />
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 className="text-2xl font-bold text-emerald-950 dark:text-emerald-50">

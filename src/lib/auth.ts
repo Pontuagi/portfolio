@@ -1,8 +1,10 @@
 import { FirebaseError } from "firebase/app";
 import {
+  browserLocalPersistence,
   isSignInWithEmailLink,
   onAuthStateChanged,
   sendSignInLinkToEmail,
+  setPersistence,
   signInWithEmailLink,
   signOut,
   updateProfile,
@@ -14,6 +16,9 @@ import { auth, db, requireFirebase } from "@/lib/firebase";
 
 const pendingEmailKey = "portfolioBlogPendingEmail";
 const pendingNameKey = "portfolioBlogPendingName";
+const sessionStartedAtKey = "portfolioStorySessionStartedAt";
+const sessionMaxAgeMs = 7 * 24 * 60 * 60 * 1000;
+let persistencePromise: Promise<void> | null = null;
 
 export function getAppUrl() {
   if (process.env.NEXT_PUBLIC_APP_URL) {
@@ -35,6 +40,8 @@ export async function sendBlogSignInLink(name: string, email: string) {
   if (!trimmedName || !trimmedEmail) {
     throw new Error("Please enter your name and email address.");
   }
+
+  await ensureBrowserAuthPersistence();
 
   try {
     await sendSignInLinkToEmail(auth, trimmedEmail, {
@@ -79,6 +86,8 @@ export async function completeBlogEmailSignIn(email: string, name: string, url: 
     throw new Error("Please confirm your name and email to finish signing in.");
   }
 
+  await ensureBrowserAuthPersistence();
+
   let credential;
 
   try {
@@ -97,6 +106,7 @@ export async function completeBlogEmailSignIn(email: string, name: string, url: 
   if (typeof window !== "undefined") {
     window.localStorage.removeItem(pendingEmailKey);
     window.localStorage.removeItem(pendingNameKey);
+    markStorySessionStarted();
     window.history.replaceState({}, document.title, "/stories/write");
   }
 
@@ -129,9 +139,23 @@ export function subscribeToAuth(callback: (user: User | null) => void) {
     return () => undefined;
   }
 
+  void ensureBrowserAuthPersistence();
+
   return onAuthStateChanged(
     auth,
-    callback,
+    async (user) => {
+      if (user && isStorySessionExpired()) {
+        await signOutBlogUser();
+        callback(null);
+        return;
+      }
+
+      if (user) {
+        ensureStorySessionStarted();
+      }
+
+      callback(user);
+    },
     () => callback(null),
   );
 }
@@ -167,6 +191,7 @@ export async function signOutBlogUser() {
   }
 
   await signOut(auth);
+  clearStorySession();
 }
 
 export function getUserProfileFromAuth(user: User, fallbackName = ""): UserProfile {
@@ -199,4 +224,49 @@ function getFirebaseAuthErrorMessage(error: unknown) {
   }
 
   return error instanceof Error ? error.message : "Could not complete Firebase sign-in.";
+}
+
+function ensureBrowserAuthPersistence() {
+  if (!auth || typeof window === "undefined") {
+    return Promise.resolve();
+  }
+
+  persistencePromise ??= setPersistence(auth, browserLocalPersistence);
+
+  return persistencePromise;
+}
+
+function markStorySessionStarted() {
+  window.localStorage.setItem(sessionStartedAtKey, String(Date.now()));
+}
+
+function ensureStorySessionStarted() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  if (!window.localStorage.getItem(sessionStartedAtKey)) {
+    markStorySessionStarted();
+  }
+}
+
+function clearStorySession() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.removeItem(sessionStartedAtKey);
+}
+
+function isStorySessionExpired() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const startedAt = Number(window.localStorage.getItem(sessionStartedAtKey));
+  if (!Number.isFinite(startedAt) || startedAt <= 0) {
+    return false;
+  }
+
+  return Date.now() - startedAt > sessionMaxAgeMs;
 }

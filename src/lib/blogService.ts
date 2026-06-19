@@ -11,6 +11,7 @@ import {
   where,
   type DocumentData,
 } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
 import { permanentBlogPosts } from "@/data/stories";
 import type { BlogPost, BlogStatus } from "@/types/portfolio";
 import { db, requireFirebase } from "@/lib/firebase";
@@ -65,19 +66,30 @@ export async function createBlogPost({
     throw new Error(`Stories must be ${maxStoryWords} words or fewer.`);
   }
 
-  await addDoc(collection(db, "blogPosts"), {
-    title: trimmedTitle,
-    content: trimmedContent,
-    preview: createPreview(trimmedContent),
-    wordCount,
-    authorId,
-    authorName: authorName.trim(),
-    authorEmail: authorEmail.trim().toLowerCase(),
-    status: "pending" satisfies BlogStatus,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-    publishedAt: null,
-  });
+  const trimmedAuthorName = authorName.trim();
+  const trimmedAuthorEmail = authorEmail.trim().toLowerCase();
+
+  if (!trimmedAuthorName || !trimmedAuthorEmail) {
+    throw new Error("Please sign in again so your story has a name and email.");
+  }
+
+  try {
+    await addDoc(collection(db, "blogPosts"), {
+      title: trimmedTitle,
+      content: trimmedContent,
+      preview: createPreview(trimmedContent),
+      wordCount,
+      authorId,
+      authorName: trimmedAuthorName,
+      authorEmail: trimmedAuthorEmail,
+      status: "pending" satisfies BlogStatus,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      publishedAt: null,
+    });
+  } catch (error) {
+    throw new Error(getStorySubmissionErrorMessage(error));
+  }
 }
 
 export async function getApprovedBlogPosts(authorName?: string) {
@@ -85,15 +97,12 @@ export async function getApprovedBlogPosts(authorName?: string) {
     throw new Error("Firebase is not configured.");
   }
 
-  const constraints = [
-    where("status", "==", "approved"),
-    orderBy("publishedAt", "desc"),
-    limit(50),
-  ];
-  const snapshot = await getDocs(query(collection(db, "blogPosts"), ...constraints));
-  const posts = snapshot.docs.map((docSnapshot) =>
-    mapBlogPost(docSnapshot.id, docSnapshot.data()),
+  const snapshot = await getDocs(
+    query(collection(db, "blogPosts"), where("status", "==", "approved"), limit(50)),
   );
+  const posts = snapshot.docs
+    .map((docSnapshot) => mapBlogPost(docSnapshot.id, docSnapshot.data()))
+    .sort(newestPublishedFirst);
 
   const normalizedAuthor = authorName?.trim().toLowerCase();
   if (!normalizedAuthor) {
@@ -103,6 +112,18 @@ export async function getApprovedBlogPosts(authorName?: string) {
   return posts.filter((post) =>
     post.authorName.toLowerCase().includes(normalizedAuthor),
   );
+}
+
+function newestPublishedFirst(first: BlogPost, second: BlogPost) {
+  const firstTime =
+    first.publishedAt?.getTime() ?? first.createdAt?.getTime() ?? first.updatedAt?.getTime() ?? 0;
+  const secondTime =
+    second.publishedAt?.getTime() ??
+    second.createdAt?.getTime() ??
+    second.updatedAt?.getTime() ??
+    0;
+
+  return secondTime - firstTime;
 }
 
 export async function getApprovedBlogPostByStoryId(storyId: string) {
@@ -193,4 +214,12 @@ function toDate(value: unknown) {
   }
 
   return null;
+}
+
+function getStorySubmissionErrorMessage(error: unknown) {
+  if (error instanceof FirebaseError && error.code === "permission-denied") {
+    return "Firestore rejected this story write. Deploy the latest firestore.rules for blogPosts, then try submitting again.";
+  }
+
+  return error instanceof Error ? error.message : "Could not submit story.";
 }
