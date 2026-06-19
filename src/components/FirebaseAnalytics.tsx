@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { getFirebaseAnalytics } from "@/lib/firebaseAnalytics";
+import { getFirebaseAnalytics } from "@/services/analytics/firebaseAnalytics";
 
 export function FirebaseAnalytics() {
   useEffect(() => {

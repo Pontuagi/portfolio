@@ -15,8 +15,8 @@ This directory explains how the portfolio is organized, configured, updated, and
 2. Run the app with `npm run dev`.
 3. Read `src/lib/site.ts` for owner/contact metadata.
 4. Read `src/data/projects.ts`, `src/data/skills.ts`, `src/data/timeline.ts`, and `src/data/stories.ts` for editable portfolio content.
-5. Read `src/lib/firebase.ts`, `src/lib/auth.ts`, `src/lib/blogService.ts`, and `src/lib/adminService.ts` before changing blog or admin behavior.
-6. Run `npm run lint`, `npm run typecheck`, and `npm run build` before shipping.
+5. Read `src/config/firebase.ts`, `src/services/auth/blogAuthService.ts`, `src/services/blog/`, and `src/services/admin/adminService.ts` before changing blog or admin behavior.
+6. Run `npm run lint`, `npm run test`, `npm run typecheck`, and `npm run build` before shipping.
 
 ## Current Application Summary
 

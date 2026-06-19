@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getApprovedBlogPostByStoryId } from "@/lib/blogService";
+import { getApprovedBlogPostByStoryId } from "@/services/blog";
 import { getAbsoluteStoryUrl } from "@/lib/storyLinks";
 import { ShareStoryButton } from "@/components/blog/ShareStoryButton";
 import { Section } from "@/components/ui/Section";

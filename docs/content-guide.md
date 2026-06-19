@@ -114,7 +114,7 @@ Permanent stories are always treated as approved. They can be opened by slug thr
 
 Community stories are not edited in code. They are submitted through `/stories/write`, stored in Firestore, and moderated in `/admin/stories`.
 
-Story limits are defined in `src/lib/blogService.ts`:
+Story limits are defined in `src/services/blog/constants.ts`:
 
 - `maxStoryWords = 500`
 - `maxStoryTitleLength = 80`
