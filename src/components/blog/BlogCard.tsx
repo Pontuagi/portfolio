@@ -43,7 +43,17 @@ export function BlogCard({ story }: BlogCardProps) {
         <p className="py-2 text-sm font-semibold text-stone-500 dark:text-emerald-50/55">
           {published ? "Published" : "Draft"}
         </p>
-        {published ? <ShareStoryButton post={storyLinkTarget} /> : null}
+        {published ? (
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href={storyPath}
+              className="py-2 text-sm font-semibold text-teal-800 transition hover:text-teal-950 dark:text-teal-200 dark:hover:text-teal-100"
+            >
+              Read story
+            </Link>
+            <ShareStoryButton post={storyLinkTarget} />
+          </div>
+        ) : null}
       </div>
     </MotionCard>
   );

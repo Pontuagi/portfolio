@@ -2,6 +2,25 @@ import type { Project } from "@/types/portfolio";
 
 export const projects: readonly Project[] = [
   {
+    slug: "solamtaa",
+    title: "SolaMtaa",
+    category: "Solar marketplace",
+    summary:
+      "A solar product marketplace empowering Kenyan and East African communities to browse, compare, and request quotes on clean energy solutions via WhatsApp.",
+    image: "/images/solarmtaa.png",
+    link: {
+      label: "Visit SolaMtaa",
+      href: "https://solar.anozen.org/",
+    },
+    problem:
+      "Households and communities across Kenya lacked a simple, trustworthy way to discover affordable solar panels, batteries, inverters, and accessories without visiting physical shops.",
+    solution:
+      "I built a clean web marketplace where users can browse solar products by category and request quotes directly through WhatsApp, reducing friction between buyer interest and seller contact.",
+    technologies: ["Next.js", "React", "Tailwind CSS", "Firebase"],
+    impact:
+      "The platform makes clean energy more accessible by meeting buyers where they are — online and on WhatsApp — rather than requiring them to navigate complex procurement processes.",
+  },
+  {
     slug: "grandmark-website",
     title: "GrandMark Website",
     category: "Company website",

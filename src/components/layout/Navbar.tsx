@@ -4,10 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { site } from "@/lib/site";
 
 const links = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/stories", label: "Short Stories" },
@@ -30,9 +28,6 @@ export function Navbar() {
             className="rounded-full border border-emerald-950/10 dark:border-white/15"
             priority
           />
-          <span className="text-sm font-bold uppercase text-emerald-950 dark:text-emerald-50">
-            {site.name}
-          </span>
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">

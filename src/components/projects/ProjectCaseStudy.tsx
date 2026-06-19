@@ -15,16 +15,16 @@ export function ProjectCaseStudy({ project, reverse = false }: ProjectCaseStudyP
         reverse ? "lg:[&>div:first-child]:order-2" : ""
       }`}
     >
-      <div className="overflow-hidden rounded-lg bg-stone-200 dark:bg-emerald-950">
+      <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-lg bg-stone-100 p-3 dark:bg-white/[0.04]">
         <Image
           src={project.image}
           alt={project.title}
           width={900}
           height={700}
-          className="h-full min-h-72 w-full object-cover transition duration-300 hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100"
+          className="h-full w-full rounded object-contain transition duration-300 hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100"
         />
       </div>
-      <div>
+      <div className="lg:self-center">
         <p className="text-sm font-semibold uppercase text-teal-800 dark:text-teal-200">
           {project.category}
         </p>

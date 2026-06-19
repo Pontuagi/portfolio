@@ -1,10 +1,13 @@
+import type { ReactNode } from "react";
+
 type PageHeaderProps = {
   eyebrow: string;
   title: string;
   description: string;
+  actions?: ReactNode;
 };
 
-export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
+export function PageHeader({ eyebrow, title, description, actions }: PageHeaderProps) {
   return (
     <header className="story-gradient subtle-grid px-5 pb-16 pt-32 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
@@ -17,6 +20,7 @@ export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
         <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-700 dark:text-emerald-50/75">
           {description}
         </p>
+        {actions ? <div className="mt-8 flex flex-wrap gap-3">{actions}</div> : null}
       </div>
     </header>
   );

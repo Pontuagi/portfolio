@@ -11,8 +11,8 @@ export default function HomePage() {
     <main>
       <Hero />
       <Intro />
-      <Journey />
       <FeaturedProjects />
+      <Journey />
       <Skills />
       <BlogPreview />
       <ContactCta />

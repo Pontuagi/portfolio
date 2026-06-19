@@ -14,12 +14,16 @@ export function MotionCard({ children, className = "", ...props }: MotionCardPro
   return (
     <motion.article
       className={className}
-      initial={prefersReducedMotion ? false : { opacity: 0.94, y: 12 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
       whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
       whileHover={prefersReducedMotion ? undefined : "hover"}
-      viewport={{ once: true, amount: 0.18 }}
+      viewport={{ once: true, amount: 0.14 }}
       variants={prefersReducedMotion ? undefined : cardLift}
-      transition={prefersReducedMotion ? reducedMotionTransition : { duration: 0.22 }}
+      transition={
+        prefersReducedMotion
+          ? reducedMotionTransition
+          : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+      }
       {...props}
     >
       {children}

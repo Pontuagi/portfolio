@@ -29,7 +29,11 @@ export const staggerContainer: Variants = {
 
 export const cardLift = {
   rest: { y: 0, scale: 1 },
-  hover: { y: -4, scale: 1.01 },
+  hover: {
+    y: -7,
+    scale: 1.018,
+    transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const },
+  },
 };
 
 export const reducedMotionTransition = { duration: 0 };
