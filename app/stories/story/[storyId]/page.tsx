@@ -71,7 +71,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
       <Section className="bg-white pt-32 dark:bg-[#071412]" animate={false}>
         <article className="mx-auto max-w-3xl">
           <Link
-            href="/blog"
+            href="/stories"
             className="text-sm font-semibold text-teal-800 transition hover:text-teal-950 dark:text-teal-200 dark:hover:text-teal-100"
           >
             Back to short stories

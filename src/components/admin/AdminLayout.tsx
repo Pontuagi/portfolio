@@ -97,7 +97,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           title="Admin sign-in required"
           description="Sign in once using the Blog email-link flow, then return here. Admin access is checked against the admins collection."
         />
-        <Button href="/blog/write">Sign in with email link</Button>
+        <Button href="/stories/write">Sign in with email link</Button>
       </div>
     );
   }

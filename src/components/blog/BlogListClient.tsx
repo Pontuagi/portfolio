@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { permanentBlogPosts } from "@/data/stories";
 import { getApprovedBlogPosts } from "@/lib/blogService";
+import { isFirebaseConfigured } from "@/lib/firebase";
 import type { BlogPost } from "@/types/portfolio";
 import { BlogState } from "@/components/blog/BlogState";
 import { ExpandableStoryCard } from "@/components/blog/ExpandableStoryCard";
@@ -11,32 +12,27 @@ import { Button } from "@/components/ui/Button";
 export function BlogListClient() {
   const [posts, setPosts] = useState<BlogPost[]>([...permanentBlogPosts]);
   const [authorFilter, setAuthorFilter] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [firebaseAccessible, setFirebaseAccessible] = useState(isFirebaseConfigured);
 
   useEffect(() => {
+    if (!isFirebaseConfigured) {
+      setFirebaseAccessible(false);
+      return;
+    }
+
     let mounted = true;
 
     async function loadPosts() {
       try {
-        setLoading(true);
-        setError("");
         const approvedPosts = await getApprovedBlogPosts();
         if (mounted) {
           setPosts([...permanentBlogPosts, ...approvedPosts]);
+          setFirebaseAccessible(true);
         }
-      } catch (caughtError) {
+      } catch {
         if (mounted) {
           setPosts([...permanentBlogPosts]);
-          setError(
-            caughtError instanceof Error
-              ? caughtError.message
-              : "Could not load approved stories.",
-          );
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
+          setFirebaseAccessible(false);
         }
       }
     }
@@ -71,10 +67,10 @@ export function BlogListClient() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button href="/blog/write" variant="secondary">
+          <Button href="/stories/write" variant="secondary">
             Submit a story
           </Button>
-          <Button href="/blog/my-stories">My stories</Button>
+          <Button href="/stories/my-stories">My stories</Button>
         </div>
       </div>
 
@@ -94,14 +90,7 @@ export function BlogListClient() {
       />
 
       <div className="mt-8">
-        {loading ? (
-          <BlogState
-            title="Loading stories"
-            description="Fetching approved stories from Firestore."
-          />
-        ) : error && filteredPosts.length === 0 ? (
-          <BlogState title="Blog is not ready yet" description={error} tone="error" />
-        ) : posts.length === 0 ? (
+        {posts.length === 0 ? (
           <BlogState
             title="No approved stories yet"
             description="Submitted stories will appear here after they are reviewed and approved."
@@ -112,20 +101,15 @@ export function BlogListClient() {
             description="Try another author name or clear the filter to see all approved stories."
           />
         ) : (
-          <>
-            {error ? (
-              <BlogState
-                title="Community stories could not load"
-                description={error}
-                tone="error"
+          <div className="mt-5 grid gap-5">
+            {filteredPosts.map((post) => (
+              <ExpandableStoryCard
+                key={post.id}
+                post={post}
+                actionTone={firebaseAccessible ? "default" : "blue"}
               />
-            ) : null}
-            <div className="mt-5 grid gap-5">
-              {filteredPosts.map((post) => (
-                <ExpandableStoryCard key={post.id} post={post} />
-              ))}
-            </div>
-          </>
+            ))}
+          </div>
         )}
       </div>
     </div>

@@ -1,4 +1,6 @@
 .next/
+.codex/
+.agents/
 node_modules/
 out/
 dist/

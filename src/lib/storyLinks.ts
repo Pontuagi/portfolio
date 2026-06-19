@@ -7,7 +7,7 @@ export function getStoryRouteId(post: StoryLinkTarget) {
 }
 
 export function getStoryPath(post: StoryLinkTarget) {
-  return `/blog/story/${encodeURIComponent(getStoryRouteId(post))}`;
+  return `/stories/story/${encodeURIComponent(getStoryRouteId(post))}`;
 }
 
 export function getAbsoluteStoryUrl(post: StoryLinkTarget) {

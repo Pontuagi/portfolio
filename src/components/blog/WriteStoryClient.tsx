@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import type { User } from "firebase/auth";
 import {
   completeBlogEmailSignIn,
@@ -31,13 +31,23 @@ export function WriteStoryClient() {
   const [working, setWorking] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const completingEmailLinkRef = useRef(false);
 
   const wordCount = countWords(content);
   const overWordLimit = wordCount > maxStoryWords;
   const titleTooLong = title.length > maxStoryTitleLength;
 
   useEffect(() => {
+    let settled = false;
+    const fallbackTimer = window.setTimeout(() => {
+      if (!settled && !completingEmailLinkRef.current) {
+        setAuthLoading(false);
+      }
+    }, 5000);
+
     const unsubscribe = subscribeToAuth(async (currentUser) => {
+      settled = true;
+      window.clearTimeout(fallbackTimer);
       setUser(currentUser);
       setAuthLoading(false);
 
@@ -57,7 +67,10 @@ export function WriteStoryClient() {
       }
     });
 
-    return unsubscribe;
+    return () => {
+      window.clearTimeout(fallbackTimer);
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -71,6 +84,7 @@ export function WriteStoryClient() {
 
     if (!pendingIdentity.name || !pendingIdentity.email) {
       setNeedsConfirmation(true);
+      setAuthLoading(false);
       return;
     }
 
@@ -84,9 +98,18 @@ export function WriteStoryClient() {
     }
 
     try {
+      completingEmailLinkRef.current = true;
       setWorking(true);
+      setAuthLoading(false);
       setError("");
-      await completeBlogEmailSignIn(emailValue, nameValue, window.location.href);
+      const signedInUser = await completeBlogEmailSignIn(
+        emailValue,
+        nameValue,
+        window.location.href,
+      );
+      setUser(signedInUser);
+      setEmail(signedInUser.email ?? emailValue.trim().toLowerCase());
+      setName(signedInUser.displayName ?? nameValue.trim());
       setNeedsConfirmation(false);
       setSuccess("You are signed in. You can submit your story now.");
     } catch (caughtError) {
@@ -94,6 +117,8 @@ export function WriteStoryClient() {
         caughtError instanceof Error ? caughtError.message : "Could not complete sign-in.",
       );
     } finally {
+      completingEmailLinkRef.current = false;
+      setAuthLoading(false);
       setWorking(false);
     }
   }

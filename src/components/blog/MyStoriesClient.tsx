@@ -97,7 +97,7 @@ export function MyStoriesClient() {
           title="Sign in to view your stories"
           description="Use the passwordless email-link flow on the write page, then come back here to track pending, approved, and rejected submissions."
         />
-        <Button href="/blog/write">Sign in and write</Button>
+        <Button href="/stories/write">Sign in and write</Button>
       </div>
     );
   }
@@ -132,7 +132,7 @@ export function MyStoriesClient() {
             title="You have not submitted a story yet"
             description="Write a short story in 500 words or fewer and submit it for review."
           />
-          <Button href="/blog/write">Write your first story</Button>
+          <Button href="/stories/write">Write your first story</Button>
         </div>
       ) : (
         groupedPosts.map((group) => (

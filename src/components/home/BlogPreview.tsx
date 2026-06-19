@@ -20,7 +20,7 @@ export function BlogPreview() {
           </p>
         </div>
         <Link
-          href="/blog"
+          href="/stories"
           className="font-semibold text-teal-800 transition hover:text-teal-950 dark:text-teal-200 dark:hover:text-teal-100"
         >
           Read short stories

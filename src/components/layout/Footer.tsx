@@ -23,7 +23,7 @@ export function Footer() {
           <Link href="/projects" className="hover:text-white">
             Projects
           </Link>
-          <Link href="/blog" className="hover:text-white">
+          <Link href="/stories" className="hover:text-white">
             Short Stories
           </Link>
           <Link href="/contact" className="hover:text-white">

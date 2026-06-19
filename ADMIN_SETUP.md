@@ -4,7 +4,7 @@ The admin pages use Firebase Auth plus an `admins/{userId}` Firestore document.
 
 ## Add the first admin manually
 
-1. Sign in once using the email-link flow at `/blog/write`.
+1. Sign in once using the email-link flow at `/stories/write`.
 2. Open Firebase Authentication in the Firebase Console.
 3. Copy the signed-in user's Firebase Auth user ID.
 4. Open Firestore and create a document at `admins/{userId}`.

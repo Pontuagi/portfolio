@@ -1,3 +1,4 @@
+import { FirebaseError } from "firebase/app";
 import {
   isSignInWithEmailLink,
   onAuthStateChanged,
@@ -35,10 +36,14 @@ export async function sendBlogSignInLink(name: string, email: string) {
     throw new Error("Please enter your name and email address.");
   }
 
-  await sendSignInLinkToEmail(auth, trimmedEmail, {
-    url: `${getAppUrl()}/blog/write`,
-    handleCodeInApp: true,
-  });
+  try {
+    await sendSignInLinkToEmail(auth, trimmedEmail, {
+      url: `${getAppUrl()}/stories/write`,
+      handleCodeInApp: true,
+    });
+  } catch (error) {
+    throw new Error(getFirebaseAuthErrorMessage(error));
+  }
 
   if (typeof window !== "undefined") {
     window.localStorage.setItem(pendingEmailKey, trimmedEmail);
@@ -74,14 +79,25 @@ export async function completeBlogEmailSignIn(email: string, name: string, url: 
     throw new Error("Please confirm your name and email to finish signing in.");
   }
 
-  const credential = await signInWithEmailLink(auth, trimmedEmail, url);
-  await updateProfile(credential.user, { displayName: trimmedName });
-  await upsertUserProfile(credential.user.uid, trimmedName, trimmedEmail);
+  let credential;
+
+  try {
+    credential = await signInWithEmailLink(auth, trimmedEmail, url);
+  } catch (error) {
+    throw new Error(getFirebaseAuthErrorMessage(error));
+  }
+
+  void updateProfile(credential.user, { displayName: trimmedName }).catch(() => {
+    // Auth succeeded; display name sync is non-critical for entering the form.
+  });
+  void upsertUserProfile(credential.user.uid, trimmedName, trimmedEmail).catch(() => {
+    // Auth succeeded; profile sync can be retried by later profile writes.
+  });
 
   if (typeof window !== "undefined") {
     window.localStorage.removeItem(pendingEmailKey);
     window.localStorage.removeItem(pendingNameKey);
-    window.history.replaceState({}, document.title, "/blog/write");
+    window.history.replaceState({}, document.title, "/stories/write");
   }
 
   return credential.user;
@@ -113,7 +129,11 @@ export function subscribeToAuth(callback: (user: User | null) => void) {
     return () => undefined;
   }
 
-  return onAuthStateChanged(auth, callback);
+  return onAuthStateChanged(
+    auth,
+    callback,
+    () => callback(null),
+  );
 }
 
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
@@ -157,4 +177,26 @@ export function getUserProfileFromAuth(user: User, fallbackName = ""): UserProfi
     createdAt: null,
     updatedAt: null,
   };
+}
+
+function getFirebaseAuthErrorMessage(error: unknown) {
+  if (error instanceof FirebaseError) {
+    if (error.code === "auth/configuration-not-found") {
+      return "Firebase Authentication is not enabled for this project yet. In Firebase Console, open Authentication > Sign-in method, enable Email/Password, enable Email link passwordless sign-in, save, and make sure localhost plus your deployed domain are authorized.";
+    }
+
+    if (error.code === "auth/operation-not-allowed") {
+      return "Email sign-in is not enabled in Firebase Authentication. Enable Email/Password and Email link passwordless sign-in in Firebase Console, then try again.";
+    }
+
+    if (error.code === "auth/unauthorized-domain") {
+      return "This domain is not authorized in Firebase Authentication. Add localhost and your deployed domain under Authentication > Settings > Authorized domains.";
+    }
+
+    if (error.code === "auth/invalid-email") {
+      return "Please enter a valid email address.";
+    }
+  }
+
+  return error instanceof Error ? error.message : "Could not complete Firebase sign-in.";
 }

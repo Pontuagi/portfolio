@@ -6,9 +6,10 @@ import { getAbsoluteStoryUrl } from "@/lib/storyLinks";
 
 type ShareStoryButtonProps = {
   post: Pick<BlogPost, "id" | "slug" | "title" | "preview">;
+  tone?: "default" | "blue";
 };
 
-export function ShareStoryButton({ post }: ShareStoryButtonProps) {
+export function ShareStoryButton({ post, tone = "default" }: ShareStoryButtonProps) {
   const [message, setMessage] = useState("");
 
   async function handleShare() {
@@ -43,7 +44,7 @@ export function ShareStoryButton({ post }: ShareStoryButtonProps) {
     <div className="flex flex-col items-start gap-2">
       <button
         type="button"
-        className="rounded-md border border-emerald-950/15 px-4 py-2 text-sm font-semibold text-teal-800 transition hover:border-teal-700 hover:bg-teal-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 dark:border-white/15 dark:text-teal-200 dark:hover:border-teal-300 dark:hover:bg-white/10"
+        className={buttonToneClassName(tone)}
         onClick={handleShare}
       >
         Share
@@ -55,6 +56,17 @@ export function ShareStoryButton({ post }: ShareStoryButtonProps) {
       ) : null}
     </div>
   );
+}
+
+function buttonToneClassName(tone: ShareStoryButtonProps["tone"]) {
+  const base =
+    "rounded-md border px-4 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
+
+  if (tone === "blue") {
+    return `${base} border-sky-800/25 text-sky-800 hover:border-sky-700 hover:bg-sky-50 focus-visible:outline-sky-600 dark:border-sky-300/25 dark:text-sky-200 dark:hover:border-sky-300 dark:hover:bg-sky-400/10`;
+  }
+
+  return `${base} border-emerald-950/15 text-teal-800 hover:border-teal-700 hover:bg-teal-50 focus-visible:outline-teal-600 dark:border-white/15 dark:text-teal-200 dark:hover:border-teal-300 dark:hover:bg-white/10`;
 }
 
 async function copyStoryUrl(url: string) {
